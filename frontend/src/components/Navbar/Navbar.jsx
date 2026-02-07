@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <div>
       <nav className="glass-nav fixed top-0 w-full z-50">
-        <div className="flex justify-between items-center h-16 px-4 sm:px-6 mx-auto">
+        <div className="flex justify-between items-center h-16 px-6 md:px-10 mx-auto">
           <div className="flex items-center gap-2">
             <span className="text-xl font-bold text-white tracking-tight">
               GraphIQ
