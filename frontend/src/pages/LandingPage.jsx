@@ -39,14 +39,14 @@ const LandingPage = () => {
         </section>
 
         {/* Methodology Section */}
-        <section className="mx-auto px-6 py-24 border-t border-white/5">
-          <div className="text-center mb-16">
+        <section className="mx-auto px-6 py-24 border-t border-white/5 border-b">
+          <div className="text-center mb-24">
             <h2 class="text-[10px] font-bold tracking-[0.2em] text-(--color-primary) uppercase mb-4">
               Methodology
             </h2>
             <h3 class="text-3xl font-semibold text-white">How it Works</h3>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-19">
             {/* Card 1 */}
             <div className="group p-6 card-surface border border-white/5 hover:border-(--color-primary)/30 transition-all">
               <div className="size-12 rounded-lg bg-white/5 flex items-center justify-center mb-6 group-hover:bg-(--color-primary)/10 transition-colors">
@@ -106,6 +106,35 @@ const LandingPage = () => {
             </div>
           </div>
         </section>
+
+        {/* Final CTA Section */}
+        <section className="mx-auto px-6 py-32 text-center">
+          <div className="p-10 md:p-16 rounded-4xl bg-linear-to-b from-(--bg-card) to-(--bg-dark) border border-white/5 relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-4 md:p-8 opacity-10">
+              <span
+                className="material-symbols-outlined"
+                style={{ fontSize: "clamp(40px, 8vw, 120px)" }}
+              >
+                hub
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+              Ready to map your <br />
+              knowledge base?
+            </h2>
+            <p class="text-(--text-muted) mb-10 max-w-lg mx-auto">
+              Join the AI enhanced student community using GraphIQ to uncover
+              hidden connections in document data.
+            </p>
+            <div class="flex items-center justify-center">
+              <button class="cta-gradient px-10 py-4 rounded-3xl text-white font-bold text-lg shadow-2xl shadow-(--color-primary)/20 cursor-pointer hover:scale-[1.02] transition-transform">
+                Get Started Now
+              </button>
+            </div>
+          </div>
+        </section>
+
+        
       </main>
     </>
   );
