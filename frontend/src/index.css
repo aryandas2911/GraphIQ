@@ -12,6 +12,7 @@
   --bg-dark: #0e0f12;
   --bg-light: #f6f8f8;
   --bg-card: #15171c;
+  --bg-input: #1b1e24;
 
   /* Text */
   --text-main: #e6e8eb;
@@ -20,6 +21,7 @@
   /* Borders */
   --border-subtle: rgba(255, 255, 255, 0.05);
   --border-muted: rgba(255, 255, 255, 0.1);
+  --border-input: #23262d;
 
   /* Radii */
   --radius-sm: 0.5rem;
