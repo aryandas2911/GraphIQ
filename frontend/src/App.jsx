@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar/Navbar.jsx";
 import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup.jsx";
 import Login from "./pages/Login.jsx";
+import Documents from "./pages/Documents.jsx";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           }
         >
           <Route path="/" element={<LandingPage />} />
+          <Route path="/documents" element={<Documents />} />
         </Route>
 
         {/* Auth layout (no navbar) */}
