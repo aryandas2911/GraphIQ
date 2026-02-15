@@ -18,11 +18,13 @@
   /* Text */
   --text-main: #e6e8eb;
   --text-muted: #a1a6b3;
+  --text-dim: #6f7482;
 
   /* Borders */
   --border-subtle: rgba(255, 255, 255, 0.05);
   --border-muted: rgba(255, 255, 255, 0.1);
   --border-input: #23262d;
+  --border-strong: rgba(255, 255, 255, 0.15);
 
   /* Radii */
   --radius-sm: 0.5rem;
@@ -66,4 +68,18 @@ body {
 
 .text-muted {
   color: var(--text-muted);
+}
+
+.hover-lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft-primary);
+}
+
+.focus-ring {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-primary);
 }

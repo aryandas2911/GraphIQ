@@ -4,6 +4,7 @@ import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup.jsx";
 import Login from "./pages/Login.jsx";
 import Documents from "./pages/Documents.jsx";
+import Profile from "./pages/Profile.jsx";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         {/* Auth layout (no navbar) */}
         <Route path="/register" element={<Signup />} />
         <Route path="/login" element={<Login/>} />
+        <Route path="/profile" element={<Profile/>} />
       </Routes>
     </>
   );

@@ -99,8 +99,8 @@ const Signup = () => {
       </main>
 
       {/* Footer */}
-      <footer class="py-10 text-center">
-        <p class="text-(--text-muted)/40 text-xs">
+      <footer className="py-10 text-center">
+        <p className="text-(--text-muted)/40 text-xs">
           © 2026 GraphIQ. Built for Intellectual Clarity.
         </p>
       </footer>
