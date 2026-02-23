@@ -7,7 +7,7 @@
   --color-danger: #ef4444;
   --color-warning: #f59e0b;
   --color-success: #22c55e;
-  --color-graph: #2ED3C6;
+  --color-graph: #2ed3c6;
 
   /* Backgrounds */
   --bg-dark: #0e0f12;
@@ -71,7 +71,9 @@ body {
 }
 
 .hover-lift {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .hover-lift:hover {
@@ -82,4 +84,9 @@ body {
 .focus-ring {
   outline: none;
   box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+.graph-grid {
+  background-image: radial-gradient(#23262d 1px, transparent 1px);
+  background-size: 24px 24px;
 }

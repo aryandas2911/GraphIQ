@@ -5,6 +5,7 @@ import Signup from "./pages/Signup.jsx";
 import Login from "./pages/Login.jsx";
 import Documents from "./pages/Documents.jsx";
 import Profile from "./pages/Profile.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 
 const App = () => {
   return (
@@ -21,10 +22,11 @@ const App = () => {
         >
           <Route path="/" element={<LandingPage />} />
           <Route path="/documents" element={<Documents />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
 
         {/* Auth layout (no navbar) */}
-        <Route path="/register" element={<Signup />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login/>} />
         <Route path="/profile" element={<Profile/>} />
       </Routes>
