@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import { supabase } from "./config/db";
+import { authRouter } from "./routes/authRoutes.js";
 
 const app = express();
 dotenv.config();
@@ -13,6 +13,8 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
+app.use("/api/auth", authRouter);
+
 app.listen(PORT, () => {
-  console.log(`Backend on http://localhost:${PORT}/`);
+  console.log(`Backend on http://localhost:${PORT}`);
 });
