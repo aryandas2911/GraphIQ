@@ -1,9 +1,6 @@
 import bcrypt from "bcryptjs";
 import { supabase } from "../config/db.js";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 export const signup = async (req, res) => {
   try {
@@ -40,7 +37,7 @@ export const signup = async (req, res) => {
       return res.status(500).json({ message: "Database error" });
     }
 
-    const user=newUser[0];
+    const user = newUser[0];
 
     const token = jwt.sign(
       { id: user.id, email: user.email },
@@ -92,5 +89,25 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const me = async (req, res) => {
+  try {
+    const { id, email } = req;
+
+    const { data, error } = await supabase
+      .from("users")
+      .select("id,name,email,created_at")
+      .eq("email", email)
+      .single();
+
+    if (error || !data) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({ message: "User details: ", data });
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching user data" });
   }
 };
