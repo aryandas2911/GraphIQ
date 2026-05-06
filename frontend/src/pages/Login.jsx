@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Login = () => {
   return (
     <div className="flex min-h-screen flex-col pt-25">
@@ -28,50 +30,39 @@ const Login = () => {
             </div>
 
             {/* Password field */}
-            <div class="flex flex-col gap-1.5">
-              <label class="text-white text-sm font-medium leading-none px-1">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-white text-sm font-medium leading-none px-1">
                 Password
               </label>
               <input
-                class="form-input flex w-full rounded-2xl text-white focus:outline-0 focus:ring-1 focus:ring-(--color-primary)/50 border-none bg-(--bg-input) h-12 placeholder:text-(--text-muted)/40 px-4 text-base font-normal transition-all"
+                className="form-input flex w-full rounded-2xl text-white focus:outline-0 focus:ring-1 focus:ring-(--color-primary)/50 border-none bg-(--bg-input) h-12 placeholder:text-(--text-muted)/40 px-4 text-base font-normal transition-all"
                 placeholder="•••••••••••"
                 type="password"
               />
             </div>
 
             {/* CTA Button */}
-            <div class="pt-4">
-              <button class="cta-gradient w-full h-12 rounded-3xl text-(--bg-dark) font-bold text-base hover:opacity-90 transition-opacity active:scale-[0.98] transform cursor-pointer">
+            <div className="pt-4">
+              <button className="cta-gradient w-full h-12 rounded-3xl text-(--bg-dark) font-bold text-base hover:opacity-90 transition-opacity active:scale-[0.98] transform cursor-pointer">
                 Sign In
               </button>
             </div>
           </form>
 
           {/* Log In Link */}
-          <div class="mt-8 pt-6 border-t border-(--border-input) text-center">
-            <p class="text-(--text-muted) text-sm">
+          <div className="mt-8 pt-6 border-t border-(--border-input) text-center">
+            <p className="text-(--text-muted) text-sm">
               Don't have an account?
-              <a
-                class="text-(--color-primary) hover:text-(--color-primary)/80 font-medium ml-1 transition-colors"
-                href="/signup"
+              <Link
+                className="text-(--color-primary) hover:text-(--color-primary)/80 font-medium ml-1 transition-colors"
+                to="/signup"
               >
                 Sign up
-              </a>
+              </Link>
             </p>
           </div>
         </div>
-
-        {/* Trust / Security Footer */}
-        <div class="mt-10 flex items-center gap-6 opacity-40 grayscale pointer-events-none">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-white text-lg">
-              encrypted
-            </span>
-            <span class="text-white text-xs font-medium uppercase tracking-widest">
-              End-to-End Encrypted
-            </span>
-          </div>
-        </div>
+  
       </main>
 
       {/* Footer */}

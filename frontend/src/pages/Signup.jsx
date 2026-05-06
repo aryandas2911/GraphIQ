@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { signup } from "../api/userApi.js";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const navigate= useNavigate();
 
   const handleSignup = async () => {
     try {
@@ -21,6 +24,8 @@ const Signup = () => {
       console.log("Signup success", res);
 
       localStorage.setItem("token", res.token);
+
+      navigate("/dashboard")
     } catch (error) {
       console.log(error.message);
     }
@@ -124,25 +129,13 @@ const Signup = () => {
           <div className="mt-8 pt-6 border-t border-(--border-input) text-center">
             <p className="text-(--text-muted) text-sm">
               Already have an account?
-              <a
+              <Link
                 className="text-(--color-primary) hover:text-(--color-primary)/80 font-medium ml-1 transition-colors"
-                href="/login"
+                to="/login"
               >
                 Log in
-              </a>
+              </Link>
             </p>
-          </div>
-        </div>
-
-        {/* Trust / Security Footer */}
-        <div className="mt-10 flex items-center gap-6 opacity-40 grayscale pointer-events-none">
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-white text-lg">
-              encrypted
-            </span>
-            <span className="text-white text-xs font-medium uppercase tracking-widest">
-              End-to-End Encrypted
-            </span>
           </div>
         </div>
       </main>
