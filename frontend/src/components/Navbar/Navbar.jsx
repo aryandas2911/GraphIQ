@@ -16,7 +16,7 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
-            <button className="text-sm font-medium text-white hover:text-(--color-primary) transition-colors cursor-pointer">
+            <button className="text-sm font-medium text-white hover:text-(--color-primary) transition-colors cursor-pointer" >
               Sign In
             </button>
             <button className="cta-gradient text-white text-sm font-bold py-2 px-5 rounded-md hover:opacity-80 transition-opacity cursor-pointer">

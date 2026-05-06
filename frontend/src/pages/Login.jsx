@@ -53,7 +53,7 @@ const Login = () => {
               Don't have an account?
               <a
                 class="text-(--color-primary) hover:text-(--color-primary)/80 font-medium ml-1 transition-colors"
-                href="/"
+                href="/signup"
               >
                 Sign up
               </a>
