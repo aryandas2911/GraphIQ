@@ -8,7 +8,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const navigate= useNavigate();
+  const navigate = useNavigate();
 
   const handleSignup = async () => {
     try {
@@ -25,7 +25,7 @@ const Signup = () => {
 
       localStorage.setItem("token", res.token);
 
-      navigate("/dashboard")
+      navigate("/dashboard");
     } catch (error) {
       console.log(error.message);
     }

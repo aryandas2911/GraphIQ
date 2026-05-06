@@ -1,6 +1,27 @@
 import { Link } from "react-router-dom";
+import { login } from "../api/userApi.js";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      const res = await login({
+        email: email,
+        password: password,
+      });
+
+      console.log("Login success", res);
+
+      localStorage.setItem("token", res.token);
+
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className="flex min-h-screen flex-col pt-25">
       <main className="flex-1 flex flex-col items-center justify-center px-4 pb-20">
@@ -26,6 +47,10 @@ const Login = () => {
                 class="form-input flex w-full rounded-2xl text-white focus:outline-0 focus:ring-1 focus:ring-(--color-primary)/50 border-none bg-(--bg-input) h-12 placeholder:text-(--text-muted)/40 px-4 text-base font-normal transition-all"
                 placeholder="name@email.com"
                 type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
               />
             </div>
 
@@ -38,12 +63,22 @@ const Login = () => {
                 className="form-input flex w-full rounded-2xl text-white focus:outline-0 focus:ring-1 focus:ring-(--color-primary)/50 border-none bg-(--bg-input) h-12 placeholder:text-(--text-muted)/40 px-4 text-base font-normal transition-all"
                 placeholder="•••••••••••"
                 type="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
               />
             </div>
 
             {/* CTA Button */}
             <div className="pt-4">
-              <button className="cta-gradient w-full h-12 rounded-3xl text-(--bg-dark) font-bold text-base hover:opacity-90 transition-opacity active:scale-[0.98] transform cursor-pointer">
+              <button
+                className="cta-gradient w-full h-12 rounded-3xl text-(--bg-dark) font-bold text-base hover:opacity-90 transition-opacity active:scale-[0.98] transform cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLogin();
+                }}
+              >
                 Sign In
               </button>
             </div>
@@ -62,7 +97,6 @@ const Login = () => {
             </p>
           </div>
         </div>
-  
       </main>
 
       {/* Footer */}
