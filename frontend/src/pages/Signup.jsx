@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { signup } from "../api/userApi.js";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -9,6 +10,7 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate();
+  const { setUser, setisAuthenticated } = useContext(AuthContext);
 
   const handleSignup = async () => {
     try {
@@ -25,7 +27,10 @@ const Signup = () => {
 
       localStorage.setItem("token", res.token);
 
-      navigate("/dashboard");
+      setUser(res.newUser[0]);
+      setisAuthenticated(true);
+
+      navigate("/profile");
     } catch (error) {
       console.log(error.message);
     }

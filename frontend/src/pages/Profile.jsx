@@ -1,4 +1,15 @@
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext.jsx";
+
 const Profile = () => {
+  const { user, logout, loading } = useContext(AuthContext);
+
+  if (!user) return <div>Loading...</div>;
+  const joinDate = user.created_at;
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    year: "numeric",
+  }).format(new Date(joinDate));
   return (
     <>
       <main className="w-full max-w-105 mx-auto space-y-8 pt-25 px-4 md:px-0">
@@ -23,13 +34,13 @@ const Profile = () => {
               <div className="absolute bottom-0 right-0 w-3 h-3 bg-(--color-primary) rounded-full border-2 border-(--bg-card)"></div>
             </div>
             <div className="flex-1 min-w-0">
-              <h2 className="text-base font-medium truncate">UserName</h2>
+              <h2 className="text-base font-medium truncate">{user?.name}</h2>
               <div className="flex flex-col space-y-0.5">
                 <span className="text-[13px] text-(--text-dim) truncate">
-                  user.name@gmail.com
+                  {user?.email}
                 </span>
                 <span className="text-[12px] text-(--text-dim)">
-                  Joined February 2026
+                  Joined {formattedDate}
                 </span>
               </div>
             </div>
@@ -83,7 +94,10 @@ const Profile = () => {
 
           {/* Secondary Text Action */}
           <div className="flex flex-col items-center space-y-6 pt-2">
-            <button className="text-(--text-muted) text-[15px] hover:text-white transition-colors cursor-pointer">
+            <button
+              className="text-(--text-muted) text-[15px] hover:text-white transition-colors cursor-pointer"
+              onClick={logout}
+            >
               Log out
             </button>
             <div className="w-full h-px bg-(--border-input)/30"></div>

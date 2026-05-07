@@ -1,12 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../api/userApi.js";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+  const { setUser, setisAuthenticated } = useContext(AuthContext);
 
   const handleLogin = async () => {
     try {
@@ -19,7 +21,10 @@ const Login = () => {
 
       localStorage.setItem("token", res.token);
 
-      navigate("/dashboard");
+      setUser(res.user);
+      setisAuthenticated(true);
+
+      navigate("/profile");
     } catch (error) {
       console.log(error.message);
     }

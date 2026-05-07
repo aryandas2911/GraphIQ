@@ -6,30 +6,53 @@ import Login from "./pages/Login.jsx";
 import Documents from "./pages/Documents.jsx";
 import Profile from "./pages/Profile.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import AuthProvider from "./context/AuthContext.jsx";
+import PrivateRoute from "./routes/PrivateRoutes.jsx";
 
 const App = () => {
   return (
     <>
-      <Routes>
-        {/* Public layout (with navbar) */}
-        <Route
-          element={
-            <>
-              <Navbar />
-              <Outlet />
-            </>
-          }
-        >
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/documents" element={<Documents />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Route>
+      <AuthProvider>
+        <Routes>
+          <Route
+            element={
+              <>
+                <Navbar />
+                <Outlet />
+              </>
+            }
+          >
+            <Route path="/" element={<LandingPage />} />
+            <Route
+              path="/documents"
+              element={
+                <PrivateRoute>
+                  <Documents />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
+          </Route>
 
-        {/* Auth layout (no navbar) */}
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/profile" element={<Profile/>} />
-      </Routes>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </AuthProvider>
     </>
   );
 };
