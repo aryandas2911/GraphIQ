@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../api/userApi.js";
+import { useState } from "react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -26,11 +29,11 @@ const Login = () => {
     <div className="flex min-h-screen flex-col pt-25">
       <main className="flex-1 flex flex-col items-center justify-center px-4 pb-20">
         {/* Headline */}
-        <div class="w-full text-center mb-8">
-          <h1 class="text-white tracking-tight text-[32px] font-bold leading-tight pb-2">
+        <div className="w-full text-center mb-8">
+          <h1 className="text-white tracking-tight text-[32px] font-bold leading-tight pb-2">
             Welcome back
           </h1>
-          <p class="text-(--text-muted) text-base font-normal leading-relaxed">
+          <p className="text-(--text-muted) text-base font-normal leading-relaxed">
             Turn documents into connected knowledge
           </p>
         </div>
@@ -39,12 +42,12 @@ const Login = () => {
         <div className="w-full max-w-md bg-(--bg-card) border border-(--border-input) rounded-3xl p-8 shadow-2xl">
           <form className="space-y-5">
             {/* Email field */}
-            <div class="flex flex-col gap-1.5">
-              <label class="text-white text-sm font-medium leading-none px-1">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-white text-sm font-medium leading-none px-1">
                 Email
               </label>
               <input
-                class="form-input flex w-full rounded-2xl text-white focus:outline-0 focus:ring-1 focus:ring-(--color-primary)/50 border-none bg-(--bg-input) h-12 placeholder:text-(--text-muted)/40 px-4 text-base font-normal transition-all"
+                className="form-input flex w-full rounded-2xl text-white focus:outline-0 focus:ring-1 focus:ring-(--color-primary)/50 border-none bg-(--bg-input) h-12 placeholder:text-(--text-muted)/40 px-4 text-base font-normal transition-all"
                 placeholder="name@email.com"
                 type="email"
                 value={email}
