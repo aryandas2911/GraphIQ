@@ -24,7 +24,7 @@ const Login = () => {
       setUser(res.user);
       setisAuthenticated(true);
 
-      navigate("/profile");
+      navigate("/dashboard");
     } catch (error) {
       console.log(error.message);
     }

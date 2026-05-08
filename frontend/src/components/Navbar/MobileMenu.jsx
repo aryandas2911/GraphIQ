@@ -1,4 +1,9 @@
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
+
 const MobileMenu = ({ open, onClose }) => {
+  const { isAuthenticated } = useContext(AuthContext);
   return (
     <>
       {/* Overlay */}
@@ -11,14 +16,31 @@ const MobileMenu = ({ open, onClose }) => {
       <div
         className={`fixed top-0 right-0 h-full w-72 bg-black/80 backdrop-blur-xl z-50 transform transition-transform duration-300 ease-out ${open ? "translate-x-0" : "translate-x-full"}`}
       >
-        <div className="flex flex-col gap-6 px-6 mt-8">
-          <button className="text-white text-base font-medium text-left">
-            Sign In
-          </button>
-          <button className="cta-gradient text-white font-bold py-3 rounded-md">
-            Get Started
-          </button>
-        </div>
+        {isAuthenticated ? (
+          <div className="flex flex-col gap-6 px-6 mt-8">
+            <Link
+              className="inline-flex items-center justify-center cta-gradient text-white font-bold py-3 px-6 rounded-md"
+              to="/profile"
+            >
+              Profile
+            </Link>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-6 px-6 mt-8">
+            <Link
+              className="text-white text-base font-medium text-left"
+              to="/login"
+            >
+              Sign In
+            </Link>
+            <Link
+              className="inline-flex items-center justify-center cta-gradient text-white font-bold py-3 px-6 rounded-md"
+              to="/signup"
+            >
+              Get Started
+            </Link>
+          </div>
+        )}
       </div>
     </>
   );

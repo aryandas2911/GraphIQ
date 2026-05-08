@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const { user, logout, loading } = useContext(AuthContext);
@@ -15,7 +16,15 @@ const Profile = () => {
       <main className="w-full max-w-105 mx-auto space-y-8 pt-25 px-4 md:px-0">
         {/* Header */}
         <header className="space-y-1 text-center md:text-left">
-          <h1 className="text-[28px] font-semibold leading-tight">Profile</h1>
+          <h1 className="text-[28px] font-semibold leading-tight">
+            <Link
+              className="border border-(--bg-dark) rounded-sm px-1 mr-2 hover:border-(--color-primary)"
+              to="/dashboard"
+            >
+              <span className="material-symbols-outlined">arrow_back</span>
+            </Link>
+            Profile
+          </h1>
           <p className="text-[15px] text-(--text-muted)">
             Your account and controls
           </p>

@@ -30,7 +30,7 @@ const Signup = () => {
       setUser(res.newUser[0]);
       setisAuthenticated(true);
 
-      navigate("/profile");
+      navigate("/dashboard");
     } catch (error) {
       console.log(error.message);
     }
