@@ -53,7 +53,7 @@ const Login = () => {
               </label>
               <input
                 className="form-input flex w-full rounded-2xl text-white focus:outline-0 focus:ring-1 focus:ring-(--color-primary)/50 border-none bg-(--bg-input) h-12 placeholder:text-(--text-muted)/40 px-4 text-base font-normal transition-all"
-                placeholder="name@email.com"
+                placeholder="Enter your email"
                 type="email"
                 value={email}
                 onChange={(e) => {
