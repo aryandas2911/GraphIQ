@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { authRouter } from "./routes/authRoutes.js";
 import cors from "cors";
+import { docRouter } from "./routes/docRoutes.js";
 
 const app = express();
 dotenv.config();
@@ -17,6 +18,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/documents", docRouter);
 
 app.listen(PORT, () => {
   console.log(`Backend on http://localhost:${PORT}`);

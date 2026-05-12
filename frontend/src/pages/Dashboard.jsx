@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Dashboard = () => {
   return (
     <main className="flex min-h-screen overflow-hidden pt-16">
@@ -23,15 +25,15 @@ const Dashboard = () => {
               </span>
               <span className="text-sm font-medium">Knowledge Graph</span>
             </a>
-            <a
+            <Link
               className="flex items-center gap-3 px-3 py-2 rounded-md text-(--text-muted) hover:bg-(--bg-input) hover:text-white transition-colors"
-              href="#"
+              to="/documents"
             >
               <span className="material-symbols-outlined text-[20px]">
                 menu_book
               </span>
               <span className="text-sm font-medium">Documents</span>
-            </a>
+            </Link>
             <a
               className="flex items-center gap-3 px-3 py-2 rounded-md text-(--text-muted) hover:bg-(--bg-input) hover:text-white transition-colors"
               href="#"
