@@ -1,4 +1,13 @@
+import { useState } from "react";
+import DocumentUpload from "../components/Modals/DocumentUpload.jsx";
+
 const Documents = () => {
+  const [uploadModal, setUploadModal] = useState(false);
+
+  const closeUploadModal = () => {
+    setUploadModal(false);
+  };
+
   return (
     <>
       <main className="mx-auto px-8 pt-27 pb-6">
@@ -13,8 +22,15 @@ const Documents = () => {
               retrieval.
             </p>
           </div>
-          <button className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-md cta-gradient text-(--bg-dark) font-semibold text-sm hover:opacity-90 transition-opacity shadow-lg shadow-(--color-primary)/10 cursor-pointer">
-            <span className="material-symbols-outlined text-sm">upload_file</span>
+          <button
+            className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-md cta-gradient text-(--bg-dark) font-semibold text-sm hover:opacity-90 transition-opacity shadow-lg shadow-(--color-primary)/10 cursor-pointer"
+            onClick={() => {
+              setUploadModal(true);
+            }}
+          >
+            <span className="material-symbols-outlined text-sm">
+              upload_file
+            </span>
             <span>Upload Paper</span>
           </button>
         </div>
@@ -128,7 +144,9 @@ const Documents = () => {
               <h3 className="text-lg font-semibold mb-2 group-hover:text-(--color-primary) transition-colors">
                 Document 3
               </h3>
-              <p className="text-slate-400 text-sm mb-4">DSA Notes • 2026 • SELF</p>
+              <p className="text-slate-400 text-sm mb-4">
+                DSA Notes • 2026 • SELF
+              </p>
               <div className="flex items-center gap-6 pt-4 border-t border-(--border-input)">
                 <div className="flex items-center gap-2 text-slate-300">
                   <span className="material-symbols-outlined text-(--color-primary) text-lg">
@@ -268,6 +286,10 @@ const Documents = () => {
           </div>
         </div>
       </footer>
+
+      {uploadModal && (
+        <DocumentUpload closeUploadModal={closeUploadModal} />
+      )}
     </>
   );
 };
