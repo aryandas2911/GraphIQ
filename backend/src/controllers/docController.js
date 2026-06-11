@@ -53,8 +53,6 @@ export const docUpload = async (req, res) => {
       });
     }
 
-    console.log(req.id);
-
     return res.status(200).json({
       message: "File uploaded successfully",
       data: {
