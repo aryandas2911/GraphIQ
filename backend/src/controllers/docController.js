@@ -71,3 +71,43 @@ export const docUpload = async (req, res) => {
     });
   }
 };
+
+export const fetchDocuments = async (req, res) => {
+  try {
+    const userId = req.id;
+
+    if (!userId) {
+      return res.status(400).json({ message: "Unauthorized" });
+    }
+
+    const { data, error } = await supabase
+      .from("documents")
+      .select(
+        "id, file_name, file_url, file_type, file_size, status, created_at",
+      )
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      return res.status(500).json({
+        message: "Failed to fetch documents",
+      });
+    }
+
+    return res.status(200).json({
+      data: data.map((doc) => ({
+        id: doc.id,
+        name: doc.file_name,
+        url: doc.file_url,
+        fileType: doc.file_type,
+        fileSize: doc.file_size,
+        status: doc.status,
+        created_at: doc.created_at,
+      })),
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
