@@ -1,7 +1,11 @@
 import express from "express";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import { docMiddleware } from "../middleware/docMiddleware.js";
-import { docUpload, fetchDocuments} from "../controllers/docController.js";
+import {
+  docUpload,
+  fetchDocuments,
+  fetchDocumentsById,
+} from "../controllers/docController.js";
 import { fileValidationMiddleware } from "../middleware/fileValidationMiddleware.js";
 
 export const docRouter = express.Router();
@@ -15,3 +19,4 @@ docRouter.post(
 );
 
 docRouter.get("/fetchDocuments", authMiddleware, fetchDocuments);
+docRouter.get("/fetchDocuments/:id", authMiddleware, fetchDocumentsById);

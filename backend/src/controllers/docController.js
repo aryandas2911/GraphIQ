@@ -111,3 +111,47 @@ export const fetchDocuments = async (req, res) => {
     });
   }
 };
+
+export const fetchDocumentsById = async (req, res) => {
+  try {
+    const userId = req.id;
+    const documentId = req.params.id;
+
+    if (!userId) {
+      return res.status(400).json({ message: "Unauthorized" });
+    }
+
+    const { data, error } = await supabase
+      .from("documents")
+      .select(
+        "id, file_name, file_url, file_type, file_size, status, created_at",
+      )
+      .eq("id", documentId)
+      .eq("user_id", userId)
+      .single();
+
+    if (error || !data) {
+      return res.status(404).json({
+        message: "Document not found",
+      });
+    }
+
+    return res.status(200).json({
+      data: {
+        id: data.id,
+        name: data.file_name,
+        file_url: data.file_url,
+        file_type: data.file_type,
+        file_size: data.file_size,
+        status: data.status,
+        created_at: data.created_at,
+        entities: [],
+        graph: null,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
