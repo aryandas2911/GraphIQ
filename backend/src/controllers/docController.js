@@ -155,3 +155,66 @@ export const fetchDocumentsById = async (req, res) => {
     });
   }
 };
+
+export const deleteDocument = async (req, res) => {
+  try {
+    const userId = req.id;
+    const documentId = req.params.id;
+
+    if (!userId) {
+      return res.status(400).json({ message: "Unauthorized" });
+    }
+
+    const { data: doc, error: fetchError } = await supabase
+      .from("documents")
+      .select("id,file_name, file_url")
+      .eq("id", documentId)
+      .eq("user_id", userId)
+      .single();
+
+    if (fetchError || !doc) {
+      return res.status(404).json({
+        message: "Document not found",
+      });
+    }
+
+    const filePath = doc.file_url.split("/documents/")[1];
+
+    if (!filePath) {
+      return res.status(500).json({
+        message: "Invalid file path",
+      });
+    }
+
+    const { error: storageError } = await supabase.storage
+      .from("documents")
+      .remove([filePath]);
+
+    if (storageError) {
+      return res.status(500).json({
+        message: "Failed to delete file from storage",
+      });
+    }
+
+    const { error: dbError } = await supabase
+      .from("documents")
+      .delete()
+      .eq("id", documentId)
+      .eq("user_id", userId);
+
+    if (dbError) {
+      return res.status(500).json({
+        message: "File deleted but DB cleanup failed",
+        error: dbError.message,
+      });
+    }
+
+    return res.status(200).json({
+      message: `${doc.file_name} deleted successfully`,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Server error",
+    });
+  }
+};

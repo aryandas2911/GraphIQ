@@ -2,6 +2,7 @@ import express from "express";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import { docMiddleware } from "../middleware/docMiddleware.js";
 import {
+  deleteDocument,
   docUpload,
   fetchDocuments,
   fetchDocumentsById,
@@ -20,3 +21,4 @@ docRouter.post(
 
 docRouter.get("/fetchDocuments", authMiddleware, fetchDocuments);
 docRouter.get("/fetchDocuments/:id", authMiddleware, fetchDocumentsById);
+docRouter.delete("/fetchDocuments/:id", authMiddleware, deleteDocument);
