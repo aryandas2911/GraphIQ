@@ -178,7 +178,10 @@ export const deleteDocument = async (req, res) => {
       });
     }
 
-    const filePath = doc.file_url.split("/documents/")[1];
+    const url = new URL(doc.file_url);
+    let filePath = url.pathname.split("/documents/")[1];
+
+    filePath = decodeURIComponent(filePath);
 
     if (!filePath) {
       return res.status(500).json({
