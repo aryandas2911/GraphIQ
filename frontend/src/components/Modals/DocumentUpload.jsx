@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { docUpload } from "../../api/documentApi";
+import { docUpload } from "../../api/documentApi.js";
 
-const DocumentUpload = ({ closeUploadModal }) => {
+const DocumentUpload = ({ closeUploadModal, refreshDocuments }) => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -28,6 +28,8 @@ const DocumentUpload = ({ closeUploadModal }) => {
       setTimeout(() => {
         closeUploadModal();
       }, 400);
+
+      refreshDocuments();
 
       return data;
     } catch (error) {

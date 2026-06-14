@@ -1,11 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DocumentUpload from "../components/Modals/DocumentUpload.jsx";
+import { fetchDocuments } from "../api/documentApi.js";
 
 const Documents = () => {
   const [uploadModal, setUploadModal] = useState(false);
 
   const closeUploadModal = () => {
     setUploadModal(false);
+  };
+
+  const [documents, setDocuments] = useState([]);
+
+  const fetchDocs = async () => {
+    try {
+      const data = await fetchDocuments();
+      setDocuments(data.data);
+    } catch (error) {
+      console.error("Error fetching documents:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDocs();
+  }, []);
+
+  const formatDate = (date) => {
+    return new Date(date).toISOString().split("T")[0];
   };
 
   return (
@@ -38,7 +58,11 @@ const Documents = () => {
         {/* Split View Layout */}
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left Column: Paper Cards */}
-          <div className="lg:w-[75%] space-y-4">
+          <div
+            className={`space-y-4 ${
+              documents.length === 0 ? "w-full" : "lg:w-[75%]"
+            }`}
+          >
             {/* Tabs Component */}
             <div className="border-b border-(--border-input) flex gap-8 mb-6">
               <a
@@ -48,223 +72,77 @@ const Documents = () => {
                 All Files
               </a>
             </div>
-            {/* Card 1 */}
-            <div className="group relative bg-(--bg-card) border-2 border-(--color-primary) rounded-xl p-5 transition-all hover:bg-(--bg-card)/80 cursor-pointer">
-              <div className="flex justify-between items-start mb-3">
-                <span className="bg-(--color-graph)/10 text-(--color-graph) text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full border border-(--color-graph)/20">
-                  PROCESSED
-                </span>
-                <span className="text-slate-500 text-xs font-medium">
-                  Feb 09, 2026
-                </span>
-              </div>
-              <h3 className="text-lg font-semibold mb-2 group-hover:text-(--color-primary) transition-colors">
-                Document 1
-              </h3>
-              <p className="text-slate-400 text-sm mb-4">
-                AI/ML Paper • 2026 • MSIT
-              </p>
-              <div className="flex items-center gap-6 pt-4 border-t border-(--border-input)">
-                <div className="flex items-center gap-2 text-slate-300">
-                  <span className="material-symbols-outlined text-(--color-primary) text-lg">
-                    account_tree
-                  </span>
-                  <span className="text-xs font-medium uppercase tracking-tight">
-                    Entities: <span className="text-white">42</span>
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-slate-300">
-                  <span className="material-symbols-outlined text-(--color-primary) text-lg">
-                    schema
-                  </span>
-                  <span className="text-xs font-medium uppercase tracking-tight">
-                    Relationships: <span className="text-white">118</span>
-                  </span>
-                </div>
-              </div>
-            </div>
 
-            {/* Card 2 */}
-            <div className="group bg-(--bg-card) border border-(--border-input) rounded-xl p-5 transition-all hover:border-slate-700 hover:bg-(--bg-card)/80 cursor-pointer">
-              <div className="flex justify-between items-start mb-3">
-                <span className="bg-(--color-graph)/10 text-(--color-graph) text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full border border-(--color-graph)/20">
-                  PROCESSED
-                </span>
-                <span className="text-slate-500 text-xs font-medium">
-                  Feb 10, 2026
-                </span>
-              </div>
-              <h3 className="text-lg font-semibold mb-2 group-hover:text-(--color-primary) transition-colors">
-                Document 2
-              </h3>
-              <p className="text-slate-400 text-sm mb-4">
-                Web Dev Book • 2026 • SELF
-              </p>
-              <div className="flex items-center gap-6 pt-4 border-t border-(--border-input)">
-                <div className="flex items-center gap-2 text-slate-300">
-                  <span className="material-symbols-outlined text-(--color-primary) text-lg">
-                    account_tree
-                  </span>
-                  <span className="text-xs font-medium uppercase tracking-tight">
-                    Entities: <span className="text-white">35</span>
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-slate-300">
-                  <span className="material-symbols-outlined text-(--color-primary) text-lg">
-                    schema
-                  </span>
-                  <span className="text-xs font-medium uppercase tracking-tight">
-                    Relationships: <span className="text-white">120</span>
-                  </span>
-                </div>
-              </div>
-            </div>
+            {documents.length !== 0 ? (
+              documents.map((doc) => (
+                <div
+                  key={doc.id}
+                  className="group bg-(--bg-card) border border-(--border-input) rounded-xl p-5 transition-all hover:border-slate-700 hover:bg-(--bg-card)/80 cursor-pointer"
+                >
+                  <div className="flex justify-between items-start mb-3">
+                    <span className="bg-(--color-graph)/10 text-(--color-graph) text-[10px] font-bold px-2.5 py-1 rounded-full border border-(--color-graph)/20">
+                      {doc.status?.toUpperCase()}
+                    </span>
 
-            {/* Card 3 */}
-            <div className="group bg-(--bg-card) border border-(--border-input) rounded-xl p-5 transition-all hover:border-slate-700 hover:bg-(--bg-card)/80 cursor-pointer">
-              <div className="flex justify-between items-start mb-3">
-                <div className="flex gap-2">
-                  <span className="bg-(--color-graph)/10 text-(--color-graph) text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full border border-(--color-graph)/20">
-                    PROCESSED
-                  </span>
-                  <span className="bg-amber-500/10 text-amber-500 text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full border border-amber-500/20">
-                    STARRED
-                  </span>
+                    <span className="text-slate-500 text-xs font-medium">
+                      {formatDate(doc.created_at)}
+                    </span>
+                  </div>
+
+                  <h3 className="text-lg font-semibold mb-2 group-hover:text-(--color-primary)">
+                    {doc.name}
+                  </h3>
+
+                  <p className="text-slate-400 text-sm mb-4">
+                    {doc.name.split(".").pop()?.toUpperCase()} •{" "}
+                    {(doc.fileSize / 1024 / 1024).toFixed(2)} MB
+                  </p>
                 </div>
-                <span className="text-slate-500 text-xs font-medium">
-                  Feb 11, 2026
-                </span>
+              ))
+            ) : (
+              <div className="text-center py-20 text-(--text-muted)">
+                <p className="text-lg font-medium">No Documents Uploaded</p>
+                <p className="text-sm mt-2">
+                  Upload your first document to get started
+                </p>
               </div>
-              <h3 className="text-lg font-semibold mb-2 group-hover:text-(--color-primary) transition-colors">
-                Document 3
-              </h3>
-              <p className="text-slate-400 text-sm mb-4">
-                DSA Notes • 2026 • SELF
-              </p>
-              <div className="flex items-center gap-6 pt-4 border-t border-(--border-input)">
-                <div className="flex items-center gap-2 text-slate-300">
-                  <span className="material-symbols-outlined text-(--color-primary) text-lg">
-                    account_tree
-                  </span>
-                  <span className="text-xs font-medium uppercase tracking-tight">
-                    Entities: <span className="text-white">25</span>
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-slate-300">
-                  <span className="material-symbols-outlined text-(--color-primary) text-lg">
-                    schema
-                  </span>
-                  <span className="text-xs font-medium uppercase tracking-tight">
-                    Relationships: <span className="text-white">198</span>
-                  </span>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
 
           {/* Right Column: Insights Panel */}
-          <div className="lg:w-[25%]">
-            <div className="sticky top-24 bg-(--bg-card) border border-(--border-input) rounded-xl p-6 overflow-hidden">
-              <h4 className="text-sm font-bold text-(--color-primary) uppercase tracking-widest mb-4">
-                Insights
-              </h4>
+          {documents.length !== 0 && (
+            <div className="lg:w-[25%]">
+              <div className="sticky top-24 bg-(--bg-card) border border-(--border-input) rounded-xl p-6 overflow-hidden">
+                <h4 className="text-sm font-bold text-(--color-primary) uppercase tracking-widest mb-4">
+                  Insights
+                </h4>
 
-              {/* Abstract Summary */}
-              <div className="mb-6">
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-tighter mb-2">
-                  Abstract Summary
-                </p>
-                <p className="text-sm text-slate-300 leading-relaxed italic border-l-2 border-(--color-primary)/30 pl-4 py-1">
-                  "The Transformer architecture replaces recurrent and
-                  convolutional layers with self-attention mechanisms, achieving
-                  superior translation quality and being significantly faster to
-                  train."
-                </p>
-              </div>
-
-              {/* Key Concepts */}
-              <div className="mb-8">
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-tighter mb-3">
-                  Key Concepts
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-2.5 py-1 bg-indigo-500/10 text-indigo-400 text-[11px] font-medium rounded border border-indigo-500/20">
-                    Transformer
-                  </span>
-                  <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-[11px] font-medium rounded border border-emerald-500/20">
-                    Self-Attention
-                  </span>
-                  <span className="px-2.5 py-1 bg-amber-500/10 text-amber-400 text-[11px] font-medium rounded border border-amber-500/20">
-                    BLEU Score
-                  </span>
-                  <span className="px-2.5 py-1 bg-rose-500/10 text-rose-400 text-[11px] font-medium rounded border border-rose-500/20">
-                    Positional Encoding
-                  </span>
+                <div className="mb-6">
+                  <p className="text-xs font-semibold text-slate-500 uppercase mb-2">
+                    Abstract Summary
+                  </p>
+                  <p className="text-sm text-slate-300 italic border-l-2 pl-4">
+                    "Change for each file"
+                  </p>
                 </div>
-              </div>
 
-              {/* Graph Influence */}
-              <div className="space-y-4">
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-tighter">
-                  Graph Influence
-                </p>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="size-2 rounded-full bg-(--color-primary) shadow-sm shadow-(--color-primary)/50"></div>
-                      <span className="text-xs font-medium text-slate-200">
-                        Self-Attention
-                      </span>
-                    </div>
-                    <span className="text-[10px] font-mono text-(--color-primary)">
-                      88.4%
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="size-2 rounded-full bg-(--color-primary)/60"></div>
-                      <span className="text-xs font-medium text-slate-200">
-                        Encoder-Decoder
-                      </span>
-                    </div>
-                    <span className="text-[10px] font-mono text-(--color-primary)/80">
-                      74.1%
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="size-2 rounded-full bg-(--color-primary)/40"></div>
-                      <span className="text-xs font-medium text-slate-200">
-                        Multi-Head
-                      </span>
-                    </div>
-                    <span className="text-[10px] font-mono text-(--color-primary)/60">
-                      62.8%
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="size-2 rounded-full bg-(--color-primary)/20"></div>
-                      <span className="text-xs font-medium text-slate-200">
-                        Layer Norm
-                      </span>
-                    </div>
-                    <span className="text-[10px] font-mono text-(--color-primary)/40">
-                      45.2%
+                <div className="mb-8">
+                  <p className="text-xs font-semibold text-slate-500 uppercase mb-3">
+                    Key Concepts
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded">
+                      Transformer
                     </span>
                   </div>
                 </div>
-              </div>
 
-              {/* Button */}
-              <button className="w-full mt-8 py-2.5 bg-(--border-input) text-slate-300 text-sm font-semibold rounded-md hover:bg-slate-800 transition-colors flex items-center justify-center gap-2 cursor-pointer">
-                <span className="material-symbols-outlined text-sm">
-                  open_in_new
-                </span>
-                Launch Graph Explorer
-              </button>
+                <button className="w-full mt-8 py-2 bg-(--border-input) text-sm rounded flex justify-center gap-2">
+                  Launch Graph Explorer
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </main>
 
@@ -282,7 +160,10 @@ const Documents = () => {
       </footer>
 
       {uploadModal && (
-        <DocumentUpload closeUploadModal={closeUploadModal} />
+        <DocumentUpload
+          closeUploadModal={closeUploadModal}
+          refreshDocuments={fetchDocs}
+        />
       )}
     </>
   );
