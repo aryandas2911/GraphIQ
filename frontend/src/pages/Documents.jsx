@@ -47,12 +47,6 @@ const Documents = () => {
               >
                 All Files
               </a>
-              <a
-                className="border-b-2 border-transparent pb-3 text-sm font-medium text-slate-500 hover:text-slate-300"
-                href="#"
-              >
-                Starred
-              </a>
             </div>
             {/* Card 1 */}
             <div className="group relative bg-(--bg-card) border-2 border-(--color-primary) rounded-xl p-5 transition-all hover:bg-(--bg-card)/80 cursor-pointer">
