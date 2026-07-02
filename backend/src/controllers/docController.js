@@ -221,3 +221,67 @@ export const deleteDocument = async (req, res) => {
     });
   }
 };
+
+export const processDocument = async (req, res) => {
+  try {
+    const userId = req.id;
+    const documentId = req.params.id;
+
+    if (!userId) {
+      return res.status(400).json({ message: "Unauthorized" });
+    }
+
+    const { data: doc, error: fetchError } = await supabase
+      .from("documents")
+      .select("id,file_name, file_url, file_type")
+      .eq("id", documentId)
+      .eq("user_id", userId)
+      .single();
+
+    if (fetchError || !doc) {
+      return res.status(404).json({
+        message: "Document not found",
+      });
+    }
+
+    const { data: updateDoc, error: updateError } = await supabase
+      .from("documents")
+      .update({ status: "processing" })
+      .eq("id", documentId);
+    
+    if (updateError){
+      return res.status(500).json({
+        message: "Status unable to update",
+      });
+    }
+
+    const fileType = doc.file_type;
+    const url = new URL(doc.file_url);
+    let filePath = url.pathname.split("/documents/")[1];
+
+    filePath = decodeURIComponent(filePath);
+
+    if (!filePath) {
+      return res.status(500).json({
+        message: "Invalid file path",
+      });
+    }
+
+    const { data: downloadDoc, error: downloadError } = await supabase.storage
+      .from("documents")
+      .download(filePath);
+
+    if (downloadError){
+      return res.status(500).json({
+        message: "Document unable to download",
+      });
+    }
+
+    const fileBuffer = Buffer.from(await downloadDoc.arrayBuffer());
+
+  } catch (error) {
+    return res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
