@@ -1,5 +1,6 @@
 import { supabase } from "../config/db.js";
 import { v4 as uuidv4 } from "uuid";
+import { extractRawText } from "../utils/textExtractor.js";
 
 export const docUpload = async (req, res) => {
   try {
@@ -248,8 +249,8 @@ export const processDocument = async (req, res) => {
       .from("documents")
       .update({ status: "processing" })
       .eq("id", documentId);
-    
-    if (updateError){
+
+    if (updateError) {
       return res.status(500).json({
         message: "Status unable to update",
       });
@@ -271,7 +272,7 @@ export const processDocument = async (req, res) => {
       .from("documents")
       .download(filePath);
 
-    if (downloadError){
+    if (downloadError) {
       return res.status(500).json({
         message: "Document unable to download",
       });
@@ -279,6 +280,8 @@ export const processDocument = async (req, res) => {
 
     const fileBuffer = Buffer.from(await downloadDoc.arrayBuffer());
 
+    const parsedText = await extractRawText(fileBuffer, fileType);
+    
   } catch (error) {
     return res.status(500).json({
       message: "Server error",
