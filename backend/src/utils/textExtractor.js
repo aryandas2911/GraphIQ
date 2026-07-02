@@ -1,10 +1,12 @@
-import pdf from "pdf-parse";
+import { PDFParse } from "pdf-parse";
 import mammoth from "mammoth";
 
 export const extractRawText = async (fileBuffer, fileType) => {
   let parsedText = "";
   if (fileType == "application/pdf") {
-    parsedText = (await pdf(fileBuffer)).text;
+    const parser = new PDFParse({ data: fileBuffer });
+    const result = await parser.getText();
+    parsedText = result.text;
   } else {
     parsedText = (await mammoth.extractRawText({ buffer: fileBuffer })).value;
   }
