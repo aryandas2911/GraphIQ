@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import DocumentUpload from "../components/Modals/DocumentUpload.jsx";
-import { fetchDocuments } from "../api/documentApi.js";
+import { deleteDocument, fetchDocuments } from "../api/documentApi.js";
 
 const Documents = () => {
   const [uploadModal, setUploadModal] = useState(false);
@@ -17,6 +17,15 @@ const Documents = () => {
       setDocuments(data.data);
     } catch (error) {
       console.error("Error fetching documents:", error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteDocument(id);
+      fetchDocs();
+    } catch (error) {
+      console.error("Error deleting document:", error);
     }
   };
 
@@ -73,6 +82,7 @@ const Documents = () => {
               </a>
             </div>
 
+            {/* Document box */}
             {documents.length !== 0 ? (
               documents.map((doc) => (
                 <div
@@ -93,10 +103,23 @@ const Documents = () => {
                     {doc.name}
                   </h3>
 
-                  <p className="text-slate-400 text-sm mb-4">
-                    {doc.name.split(".").pop()?.toUpperCase()} •{" "}
-                    {(doc.fileSize / 1024 / 1024).toFixed(2)} MB
-                  </p>
+                  <div className="flex items-end justify-between">
+                    <p className="text-slate-400 text-sm">
+                      {doc.name.split(".").pop()?.toUpperCase()} •{" "}
+                      {(doc.fileSize / 1024 / 1024).toFixed(2)} MB
+                    </p>
+
+                    <button
+                      className="text-slate-500 hover:text-red-500 transition-colors cursor-pointer"
+                      onClick={() => {
+                        handleDelete(doc.id);
+                      }}
+                    >
+                      <span className="material-symbols-outlined text-xl">
+                        delete
+                      </span>
+                    </button>
+                  </div>
                 </div>
               ))
             ) : (
