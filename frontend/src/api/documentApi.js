@@ -19,3 +19,8 @@ export const deleteDocument = async (id) => {
   const res = await API.delete(`/documents/fetchDocuments/${id}`);
   return res.data;
 };
+
+export const processDocument = async(id)=>{
+  const res= await API.post(`/documents/fetchDocuments/${id}/process`);
+  return res.data
+}

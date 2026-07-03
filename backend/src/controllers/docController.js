@@ -357,6 +357,12 @@ export const processDocument = async (req, res) => {
     });
   } catch (error) {
     console.error("Process document error:", error);
+
+    await supabase
+      .from("documents")
+      .update({ status: "failed" })
+      .eq("id", req.params.id);
+
     return res.status(500).json({
       message: "Server error",
     });
