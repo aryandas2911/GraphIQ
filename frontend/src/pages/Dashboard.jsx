@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { supabase } from "../config/supabase.js";
 import ForceGraph2D from "react-force-graph-2d"
 import AnimatedList from "../components/AnimatedList/AnimatedList.jsx"
+import GlareHover from "../components/GlareHover/GlareHover.jsx"
+import ClickSpark from "../components/ClickSpark/ClickSpark.jsx"
 
 const NODE_COLORS = [
   "#1fe0cd",
@@ -120,23 +122,45 @@ const Dashboard = () => {
         {/* Page Links */}
         <div className="flex-1 overflow-y-auto">
           <nav className="p-2 space-y-1">
-            <a
-              className="flex items-center gap-3 px-3 py-2 rounded-md bg-(--color-primary)/10 text-white group cursor-pointer"
-              href="#"
-            >
-              <span className="material-symbols-outlined text-[20px] text-(--color-primary)">
-                share_reviews
-              </span>
-              <span className="text-sm font-medium">Knowledge Graph</span>
+            <a href="#" className="block rounded-md cursor-pointer">
+              <GlareHover
+                width="100%"
+                height="100%"
+                background="transparent"
+                borderColor="transparent"
+                borderRadius="6px"
+                glareColor="#1fe0cd"
+                glareOpacity={0.25}
+                glareAngle={-30}
+                glareSize={250}
+                transitionDuration={650}
+                className="!flex items-center gap-3 px-3 py-2 bg-(--color-primary)/10 text-white"
+              >
+                <span className="material-symbols-outlined text-[20px] text-(--color-primary)">
+                  share_reviews
+                </span>
+                <span className="text-sm font-medium">Knowledge Graph</span>
+              </GlareHover>
             </a>
-            <Link
-              className="flex items-center gap-3 px-3 py-2 rounded-md text-(--text-muted) hover:bg-(--bg-input) hover:text-white transition-colors cursor-pointer"
-              to="/documents"
-            >
-              <span className="material-symbols-outlined text-[20px]">
-                menu_book
-              </span>
-              <span className="text-sm font-medium">Documents</span>
+            <Link to="/documents" className="block rounded-md cursor-pointer">
+              <GlareHover
+                width="100%"
+                height="100%"
+                background="transparent"
+                borderColor="transparent"
+                borderRadius="6px"
+                glareColor="#1fe0cd"
+                glareOpacity={0.25}
+                glareAngle={-30}
+                glareSize={250}
+                transitionDuration={650}
+                className="!flex items-center gap-3 px-3 py-2 text-(--text-muted) hover:bg-(--bg-input) hover:text-white transition-colors"
+              >
+                <span className="material-symbols-outlined text-[20px]">
+                  menu_book
+                </span>
+                <span className="text-sm font-medium">Documents</span>
+              </GlareHover>
             </Link>
           </nav>
 
@@ -214,13 +238,6 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-
-        {/* Sidebar Footer */}
-        <div className="p-4 bg-(--bg-dark)/50 border-t border-(--border-input)">
-          <div className="flex items-center justify-between text-[10px] text-(--text-dim)">
-            <span>© 2026 GraphIQ. Built for Intellectual Clarity.</span>
-          </div>
-        </div>
       </aside>
 
       {/* Center Graph */}
@@ -296,35 +313,67 @@ const Dashboard = () => {
         )}
 
         <div className="absolute bottom-6 left-6 flex flex-col gap-2">
-          <button
-            className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors cursor-pointer"
-            onClick={() => {
-              if (!fgRef.current) return;
-              fgRef.current.zoom(fgRef.current.zoom() * 1.2, 300);
-            }}
-          >
-            <span className="material-symbols-outlined text-lg">add</span>
-          </button>
-          <button
-            className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors cursor-pointer"
-            onClick={() => {
-              if (!fgRef.current) return;
-              fgRef.current.zoom(fgRef.current.zoom() * 0.8, 300);
-            }}
-          >
-            <span className="material-symbols-outlined text-lg">remove</span>
-          </button>
-          <button
-            className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors cursor-pointer"
-            onClick={() => {
-              if (!fgRef.current) return;
-              fgRef.current.zoomToFit(400, 60);
-            }}
-          >
-            <span className="material-symbols-outlined text-lg">
-              center_focus_weak
-            </span>
-          </button>
+          <div className="size-10">
+            <ClickSpark
+              sparkColor="#1fe0cd"
+              sparkSize={8}
+              sparkRadius={14}
+              sparkCount={6}
+              duration={350}
+            >
+              <button
+                className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors cursor-pointer"
+                onClick={() => {
+                  if (!fgRef.current) return;
+                  fgRef.current.zoom(fgRef.current.zoom() * 1.2, 300);
+                }}
+              >
+                <span className="material-symbols-outlined text-lg">add</span>
+              </button>
+            </ClickSpark>
+          </div>
+          <div className="size-10">
+            <ClickSpark
+              sparkColor="#1fe0cd"
+              sparkSize={8}
+              sparkRadius={14}
+              sparkCount={6}
+              duration={350}
+            >
+              <button
+                className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors cursor-pointer"
+                onClick={() => {
+                  if (!fgRef.current) return;
+                  fgRef.current.zoom(fgRef.current.zoom() * 0.8, 300);
+                }}
+              >
+                <span className="material-symbols-outlined text-lg">
+                  remove
+                </span>
+              </button>
+            </ClickSpark>
+          </div>
+          <div className="size-10">
+            <ClickSpark
+              sparkColor="#1fe0cd"
+              sparkSize={8}
+              sparkRadius={14}
+              sparkCount={6}
+              duration={350}
+            >
+              <button
+                className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors cursor-pointer"
+                onClick={() => {
+                  if (!fgRef.current) return;
+                  fgRef.current.zoomToFit(400, 60);
+                }}
+              >
+                <span className="material-symbols-outlined text-lg">
+                  center_focus_weak
+                </span>
+              </button>
+            </ClickSpark>
+          </div>
         </div>
       </section>
     </main>

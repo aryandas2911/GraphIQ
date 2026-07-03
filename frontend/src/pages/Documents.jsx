@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DocumentUpload from "../components/Modals/DocumentUpload.jsx";
+import SplitText from "../components/SplitText/SplitText.jsx";
 import {
   deleteDocument,
   fetchDocuments,
@@ -64,9 +65,19 @@ const Documents = () => {
         {/* Page Heading */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div className="flex flex-col gap-1">
-            <h2 className="text-2xl md:text-[28px] font-semibold leading-tight">
-              Uploaded Documents
-            </h2>
+            <SplitText
+              tag="h2"
+              text="Uploaded Documents"
+              splitType="words"
+              className="text-2xl md:text-[28px] font-semibold leading-tight"
+              textAlign="left"
+              delay={80}
+              duration={0.8}
+              from={{ opacity: 0, y: 30 }}
+              to={{ opacity: 1, y: 0 }}
+              threshold={0}
+              rootMargin="0px"
+            />
             <p className="text-slate-400 text-sm">
               Manage and analyze your documents through graph-augmented
               retrieval.
