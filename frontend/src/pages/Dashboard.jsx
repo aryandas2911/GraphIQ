@@ -1,6 +1,24 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchDocuments } from "../api/documentApi.js";
+import { useEffect } from "react";
 
 const Dashboard = () => {
+  const [documents, setDocuments] = useState([]);
+
+  const fetchDocs = async () => {
+    try {
+      const data = await fetchDocuments();
+      setDocuments(data.data);
+    } catch (error) {
+      console.error("Error fetching documents:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDocs();
+  }, []);
+
   return (
     <main className="flex min-h-screen overflow-hidden pt-16">
       {/* Left Sidebar */}
@@ -42,38 +60,64 @@ const Dashboard = () => {
               Documents
             </h3>
             <div className="px-2 space-y-0.5">
-              <div className="flex items-center justify-between p-3 rounded-md hover:bg-(--bg-input) group cursor-pointer">
-                <div className="flex items-center gap-3">
-                  <div className="size-8 rounded bg-(--border-input) flex items-center justify-center text-white">
-                    <span className="material-symbols-outlined text-sm">
-                      picture_as_pdf
-                    </span>
-                  </div>
-                  <div className="overflow-hidden">
-                    <p className="text-xs text-white font-medium truncate">
-                      Test.pdf
-                    </p>
-                    <p className="text-[10px] text-(--text-dim)">Indexed</p>
-                  </div>
-                </div>
-                <div className="size-2 rounded-full bg-(--color-graph)"></div>
-              </div>
-              <div className="flex items-center justify-between p-3 rounded-md hover:bg-(--bg-input) group cursor-pointer">
-                <div className="flex items-center gap-3">
-                  <div className="size-8 rounded bg-(--border-input) flex items-center justify-center text-white">
-                    <span className="material-symbols-outlined text-sm">
-                      description
-                    </span>
-                  </div>
-                  <div className="overflow-hidden">
-                    <p className="text-xs text-white font-medium truncate">
-                      Test.txt
-                    </p>
-                    <p className="text-[10px] text-(--text-dim)">Processing</p>
-                  </div>
-                </div>
-                <div className="size-2 rounded-full bg-yellow-500 animate-pulse"></div>
-              </div>
+              {documents.length !== 0 ? (
+                documents.map((doc) => {
+                  const isPdf =
+                    doc.name.split(".").pop()?.toLowerCase() === "pdf";
+
+                  const statusMap = {
+                    uploaded: {
+                      label: "Uploaded",
+                      dot: "bg-slate-500",
+                    },
+                    processing: {
+                      label: "Processing",
+                      dot: "bg-yellow-500 animate-pulse",
+                    },
+                    completed: {
+                      label: "Completed",
+                      dot: "bg-(--color-graph)",
+                    },
+                    failed: {
+                      label: "Failed",
+                      dot: "bg-red-500",
+                    },
+                  };
+
+                  const { label, dot } =
+                    statusMap[doc.status] || statusMap.uploaded;
+
+                  return (
+                    <div
+                      key={doc.id}
+                      className="flex items-center justify-between p-3 rounded-md hover:bg-(--bg-input) group cursor-pointer"
+                    >
+                      <div className="flex items-center gap-3 overflow-hidden">
+                        <div className="size-8 rounded bg-(--border-input) flex items-center justify-center text-white shrink-0">
+                          <span className="material-symbols-outlined text-sm">
+                            {isPdf ? "picture_as_pdf" : "description"}
+                          </span>
+                        </div>
+                        <div className="overflow-hidden">
+                          <p className="text-xs text-white font-medium truncate">
+                            {doc.name}
+                          </p>
+                          <p className="text-[10px] text-(--text-dim)">
+                            {label}
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        className={`size-2 rounded-full shrink-0 ${dot}`}
+                      ></div>
+                    </div>
+                  );
+                })
+              ) : (
+                <p className="px-3 py-2 text-[11px] text-(--text-dim)">
+                  No documents uploaded
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -115,9 +159,6 @@ const Dashboard = () => {
               GraphIQ Assistant
             </h3>
           </div>
-          <button className="text-(--text-dim) hover:text-white">
-            <span className="material-symbols-outlined text-lg">more_vert</span>
-          </button>
         </div>
 
         {/* Chat Window */}

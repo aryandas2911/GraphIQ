@@ -220,17 +220,6 @@ const Documents = () => {
                   </p>
                 </div>
 
-                <div className="mb-8">
-                  <p className="text-xs font-semibold text-slate-500 uppercase mb-3">
-                    Key Concepts
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded">
-                      Transformer
-                    </span>
-                  </div>
-                </div>
-
                 <button className="w-full mt-8 py-2 bg-(--border-input) text-sm rounded flex justify-center gap-2">
                   Launch Graph Explorer
                 </button>
