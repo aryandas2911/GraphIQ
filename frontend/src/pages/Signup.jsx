@@ -25,8 +25,6 @@ const Signup = () => {
         password: password,
       });
 
-      console.log("Signup success", res);
-
       localStorage.setItem("token", res.token);
 
       setUser(res.newUser[0]);

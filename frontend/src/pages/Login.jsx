@@ -19,8 +19,6 @@ const Login = () => {
         password: password,
       });
 
-      console.log("Login success", res);
-
       localStorage.setItem("token", res.token);
 
       setUser(res.user);
