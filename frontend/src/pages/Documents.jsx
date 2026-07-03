@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import DocumentUpload from "../components/Modals/DocumentUpload.jsx";
 import {
   deleteDocument,
@@ -7,6 +8,7 @@ import {
 } from "../api/documentApi.js";
 
 const Documents = () => {
+  const navigate = useNavigate();
   const [uploadModal, setUploadModal] = useState(false);
 
   const closeUploadModal = () => {
@@ -14,6 +16,7 @@ const Documents = () => {
   };
 
   const [documents, setDocuments] = useState([]);
+  const [selectedDocId, setSelectedDocId] = useState(null)
 
   const fetchDocs = async () => {
     try {
@@ -106,6 +109,7 @@ const Documents = () => {
                 <div
                   key={doc.id}
                   className="group relative bg-(--bg-card) border border-(--border-input) rounded-xl p-5 transition-all hover:border-slate-700 hover:bg-(--bg-card)/80 cursor-pointer"
+                  onClick={()=>{setSelectedDocId(doc.id)}}
                 >
                   {(() => {
                     const isProcessing =
@@ -228,14 +232,31 @@ const Documents = () => {
 
                 <div className="mb-6">
                   <p className="text-xs font-semibold text-slate-500 uppercase mb-2">
-                    Abstract Summary
+                    Document Summary
                   </p>
                   <p className="text-sm text-slate-300 italic border-l-2 pl-4">
-                    "Change for each file"
+                    {(() => {
+                      if (!selectedDocId) {
+                        return "Select a document to view its summary.";
+                      }
+
+                      const selectedDoc = documents.find(
+                        (doc) => doc.id === selectedDocId,
+                      );
+
+                      if (!selectedDoc?.summary) {
+                        return "Summary not available yet.";
+                      }
+
+                      return selectedDoc.summary;
+                    })}
                   </p>
                 </div>
 
-                <button className="w-full mt-8 py-2 bg-(--border-input) text-sm rounded flex justify-center gap-2">
+                <button
+                  className="w-full mt-8 py-2 bg-(--border-input) text-sm rounded flex justify-center gap-2"
+                  onClick={() => navigate("/dashboard")}
+                >
                   Launch Graph Explorer
                 </button>
               </div>

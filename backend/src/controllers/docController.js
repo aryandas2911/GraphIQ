@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { extractRawText } from "../utils/textExtractor.js";
 import { extractEntities } from "../utils/entityExtractor.js";
 import { extractRelationships } from "../utils/relationshipExtractor.js";
+import { summarizeText } from "../utils/summaryGenerator.js";
 
 export const docUpload = async (req, res) => {
   try {
@@ -86,7 +87,7 @@ export const fetchDocuments = async (req, res) => {
     const { data, error } = await supabase
       .from("documents")
       .select(
-        "id, file_name, file_url, file_type, file_size, status, created_at, entities(count), relationships(count)",
+        "id, file_name, file_url, file_type, file_size, status, created_at, entities(count), relationships(count), summary",
       )
       .eq("user_id", userId)
       .order("created_at", { ascending: false });
@@ -108,6 +109,7 @@ export const fetchDocuments = async (req, res) => {
         created_at: doc.created_at,
         entityCount: doc.entities[0]?.count ?? 0,
         relationshipCount: doc.relationships[0]?.count ?? 0,
+        summary: doc.summary,
       })),
     });
   } catch (error) {
@@ -129,7 +131,7 @@ export const fetchDocumentsById = async (req, res) => {
     const { data, error } = await supabase
       .from("documents")
       .select(
-        "id, file_name, file_url, file_type, file_size, status, created_at, entities(count), relationships(count)",
+        "id, file_name, file_url, file_type, file_size, status, created_at, entities(count), relationships(count), summary",
       )
       .eq("id", documentId)
       .eq("user_id", userId)
@@ -152,6 +154,7 @@ export const fetchDocumentsById = async (req, res) => {
         created_at: data.created_at,
         entityCount: data.entities[0]?.count ?? 0,
         relationshipCount: data.relationships[0]?.count ?? 0,
+        summary: data.summary,
       },
     });
   } catch (error) {
@@ -286,6 +289,8 @@ export const processDocument = async (req, res) => {
 
     const cleanText = await extractRawText(fileBuffer, fileType);
 
+    const summary = await summarizeText(cleanText);
+
     const entities = await extractEntities(cleanText);
 
     const entityRows = entities.map((name) => ({
@@ -342,7 +347,7 @@ export const processDocument = async (req, res) => {
 
     const { data: completeDoc, error: completeError } = await supabase
       .from("documents")
-      .update({ status: "completed" })
+      .update({ status: "completed", summary })
       .eq("id", documentId);
 
     if (completeError) {
