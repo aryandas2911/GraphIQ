@@ -5,6 +5,15 @@ import { useEffect } from "react";
 import { supabase } from "../config/supabase.js";
 import ForceGraph2D from "react-force-graph-2d"
 
+const NODE_COLORS = [
+  "#1fe0cd",
+  "#2ed3c6",
+  "#14b8a6",
+  "#38bdf8",
+  "#22d3ee",
+  "#5eead4",
+];
+
 const Dashboard = () => {
   const [documents, setDocuments] = useState([]);
   const [selectedDocId, setSelectedDocId] = useState(null);
@@ -13,6 +22,7 @@ const Dashboard = () => {
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
   const graphContainerRef = useRef(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+  const fgRef = useRef(null)
 
   const fetchDocs = async () => {
     try {
@@ -63,7 +73,11 @@ const Dashboard = () => {
   }, [selectedDocId]);
 
   useEffect(()=>{
-    const nodes =entities.map(e => ({ id: e.id, label: e.name }))
+    const nodes =entities.map(e => ({
+      id: e.id,
+      label: e.name,
+      color: NODE_COLORS[Math.floor(Math.random() * NODE_COLORS.length)],
+    }))
     const links= relationships.map(r => ({ source: r.source_entity, target: r.target_entity, label: r.relation }))
     setGraphData({ nodes, links })
   },[entities,relationships])
@@ -81,6 +95,14 @@ const Dashboard = () => {
 
     return () => window.removeEventListener("resize", measure);
   }, []);
+
+  useEffect(() => {
+    if (!fgRef.current) return;
+
+    fgRef.current.d3Force("charge").strength(-40);
+    fgRef.current.d3Force("link").distance(30);
+    fgRef.current.d3ReheatSimulation();
+  }, [graphData]);
 
   return (
     <main className="flex min-h-screen overflow-hidden pt-16">
@@ -201,9 +223,65 @@ const Dashboard = () => {
       <section ref={graphContainerRef} className="flex-1 relative graph-grid bg-(--bg-dark) overflow-hidden cursor-move">
         {dimensions.width > 0 && dimensions.height > 0 && (
           <ForceGraph2D
+            ref={fgRef}
             graphData={graphData}
-            nodeLabel="label"
+            nodeCanvasObject={(node, ctx, globalScale) => {
+              const label = node.label;
+              const radius = 26 / globalScale;
+
+              ctx.beginPath();
+              ctx.arc(node.x, node.y, radius, 0, 2 * Math.PI);
+              ctx.fillStyle = node.color;
+              ctx.fill();
+              ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
+              ctx.lineWidth = 1 / globalScale;
+              ctx.stroke();
+
+              const fontSize = 9 / globalScale;
+              ctx.font = `${fontSize}px Sans-Serif`;
+              ctx.fillStyle = "white";
+              ctx.textAlign = "center";
+              ctx.textBaseline = "middle";
+
+              const maxLineWidth = radius * 1.6;
+              const words = label.split(" ");
+              const lines = [];
+              let currentLine = "";
+
+              words.forEach((word) => {
+                const testLine = currentLine
+                  ? `${currentLine} ${word}`
+                  : word;
+                if (
+                  ctx.measureText(testLine).width > maxLineWidth &&
+                  currentLine
+                ) {
+                  lines.push(currentLine);
+                  currentLine = word;
+                } else {
+                  currentLine = testLine;
+                }
+              });
+              if (currentLine) lines.push(currentLine);
+
+              const lineHeight = fontSize * 1.1;
+              const startY = node.y - ((lines.length - 1) * lineHeight) / 2;
+
+              lines.forEach((line, i) => {
+                ctx.fillText(line, node.x, startY + i * lineHeight);
+              });
+
+              node.__radius = radius;
+            }}
+            nodePointerAreaPaint={(node, color, ctx) => {
+              ctx.fillStyle = color;
+              ctx.beginPath();
+              ctx.arc(node.x, node.y, node.__radius || 14, 0, 2 * Math.PI);
+              ctx.fill();
+            }}
             linkLabel="label"
+            linkColor={() => "rgba(255, 255, 255, 0.5)"}
+            linkWidth={1.5}
             width={dimensions.width}
             height={dimensions.height}
           />
