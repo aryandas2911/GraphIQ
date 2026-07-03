@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 const LandingPage = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <main className="pt-32 pb-10">
@@ -32,7 +36,10 @@ const LandingPage = () => {
 
           {/* Hero CTA Button */}
           <div className="flex items-center justify-center">
-            <button class="cta-gradient w-full sm:w-auto px-8 py-4 rounded-3xl text-white font-bold text-lg shadow-2xl shadow-(--color-primary)/10 hover:scale-[1.02] transition-transform cursor-pointer mb-19">
+            <button
+              class="cta-gradient w-full sm:w-auto px-8 py-4 rounded-3xl text-white font-bold text-lg shadow-2xl shadow-(--color-primary)/10 hover:scale-[1.02] transition-transform cursor-pointer mb-19"
+              onClick={() => navigate("/signup")}
+            >
               Upload a Document
             </button>
           </div>
@@ -127,7 +134,10 @@ const LandingPage = () => {
               hidden connections in document data.
             </p>
             <div class="flex items-center justify-center">
-              <button class="cta-gradient px-10 py-4 rounded-3xl text-white font-bold text-lg shadow-2xl shadow-(--color-primary)/20 cursor-pointer hover:scale-[1.02] transition-transform">
+              <button
+                class="cta-gradient px-10 py-4 rounded-3xl text-white font-bold text-lg shadow-2xl shadow-(--color-primary)/20 cursor-pointer hover:scale-[1.02] transition-transform"
+                onClick={() => navigate("/signup")}
+              >
                 Get Started Now
               </button>
             </div>
