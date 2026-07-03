@@ -4,6 +4,8 @@ import DocumentUpload from "../components/Modals/DocumentUpload.jsx";
 import SplitText from "../components/SplitText/SplitText.jsx";
 import AnimatedList from "../components/AnimatedList/AnimatedList.jsx";
 import ClickSpark from "../components/ClickSpark/ClickSpark.jsx";
+import CountUp from "../components/CountUp/CountUp.jsx";
+import FadeContent from "../components/FadeContent/FadeContent.jsx";
 import {
   deleteDocument,
   fetchDocuments,
@@ -206,13 +208,15 @@ const Documents = () => {
                       <span className="material-symbols-outlined text-sm">
                         account_tree
                       </span>
-                      {doc.entityCount} entities
+                      <CountUp to={doc.entityCount} duration={1} />
+                      &nbsp;entities
                     </span>
                     <span className="flex items-center gap-1">
                       <span className="material-symbols-outlined text-sm">
                         share
                       </span>
-                      {doc.relationshipCount} relationships
+                      <CountUp to={doc.relationshipCount} duration={1} />
+                      &nbsp;relationships
                     </span>
                   </div>
 
@@ -267,39 +271,41 @@ const Documents = () => {
           {documents.length !== 0 && (
             <div className="lg:w-[25%]">
               <div className="sticky top-24 bg-(--bg-card) border border-(--border-input) rounded-xl p-6 overflow-hidden">
-                <h4 className="text-sm font-bold text-(--color-primary) uppercase tracking-widest mb-4">
-                  Insights
-                </h4>
+                <FadeContent blur={true} duration={800} easing="ease-out" initialOpacity={0}>
+                  <h4 className="text-sm font-bold text-(--color-primary) uppercase tracking-widest mb-4">
+                    Insights
+                  </h4>
 
-                <div className="mb-6">
-                  <p className="text-xs font-semibold text-slate-500 uppercase mb-2">
-                    Document Summary
-                  </p>
-                  <p className="text-sm text-slate-300 italic border-l-2 pl-4">
-                    {(() => {
-                      if (!selectedDocId) {
-                        return "Select a document to view its summary.";
-                      }
+                  <div className="mb-6">
+                    <p className="text-xs font-semibold text-slate-500 uppercase mb-2">
+                      Document Summary
+                    </p>
+                    <p className="text-sm text-slate-300 italic border-l-2 pl-4">
+                      {(() => {
+                        if (!selectedDocId) {
+                          return "Select a document to view its summary.";
+                        }
 
-                      const selectedDoc = documents.find(
-                        (doc) => doc.id === selectedDocId,
-                      );
+                        const selectedDoc = documents.find(
+                          (doc) => doc.id === selectedDocId,
+                        );
 
-                      if (!selectedDoc?.summary) {
-                        return "Summary not available yet.";
-                      }
+                        if (!selectedDoc?.summary) {
+                          return "Summary not available yet.";
+                        }
 
-                      return selectedDoc.summary;
-                    })()}
-                  </p>
-                </div>
+                        return selectedDoc.summary;
+                      })()}
+                    </p>
+                  </div>
 
-                <button
-                  className="w-full mt-8 py-2 bg-(--border-input) text-sm rounded flex justify-center gap-2 cursor-pointer"
-                  onClick={() => navigate("/dashboard")}
-                >
-                  Launch Graph Explorer
-                </button>
+                  <button
+                    className="w-full mt-8 py-2 bg-(--border-input) text-sm rounded flex justify-center gap-2 cursor-pointer"
+                    onClick={() => navigate("/dashboard")}
+                  >
+                    Launch Graph Explorer
+                  </button>
+                </FadeContent>
               </div>
             </div>
           )}
