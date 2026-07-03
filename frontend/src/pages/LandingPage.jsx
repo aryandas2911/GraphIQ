@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import DotField from "../components/DotField/DotField";
 import SplitText from "../components/SplitText/SplitText";
 import StarBorder from "../components/StarBorder/StarBorder";
+import SpotlightCard from "../components/SpotlightCard/SpotlightCard";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -96,7 +97,10 @@ const LandingPage = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-19">
             {/* Card 1 */}
-            <div className="group p-6 card-surface border border-white/5 hover:border-(--color-primary)/30 transition-all">
+            <SpotlightCard
+              className="group p-6 hover:border-(--color-primary)/30 transition-all"
+              spotlightColor="rgba(31, 224, 205, 0.15)"
+            >
               <div className="size-12 rounded-lg bg-white/5 flex items-center justify-center mb-6 group-hover:bg-(--color-primary)/10 transition-colors">
                 <span class="material-symbols-outlined text-(--text-muted) group-hover:text-(--color-primary)">
                   upload_file
@@ -106,10 +110,13 @@ const LandingPage = () => {
               <p class="text-sm text-(--text-muted) leading-relaxed">
                 Drop your PDFs or research papers into the secure workspace.
               </p>
-            </div>
+            </SpotlightCard>
 
             {/* Card 2 */}
-            <div className="group p-6 card-surface border border-white/5 hover:border-(--color-primary)/30 transition-all">
+            <SpotlightCard
+              className="group p-6 hover:border-(--color-primary)/30 transition-all"
+              spotlightColor="rgba(31, 224, 205, 0.15)"
+            >
               <div className="size-12 rounded-lg bg-white/5 flex items-center justify-center mb-6 group-hover:bg-(--color-primary)/10 transition-colors">
                 <span class="material-symbols-outlined text-(--text-muted) group-hover:text-(--color-primary)">
                   psychology
@@ -122,10 +129,13 @@ const LandingPage = () => {
                 Our models extract entities, concepts, and semantic
                 relationships.
               </p>
-            </div>
+            </SpotlightCard>
 
             {/* Card 3 */}
-            <div className="group p-6 card-surface border border-white/5 hover:border-(--color-primary)/30 transition-all">
+            <SpotlightCard
+              className="group p-6 hover:border-(--color-primary)/30 transition-all"
+              spotlightColor="rgba(31, 224, 205, 0.15)"
+            >
               <div className="size-12 rounded-lg bg-white/5 flex items-center justify-center mb-6 group-hover:bg-(--color-primary)/10 transition-colors">
                 <span class="material-symbols-outlined text-(--text-muted) group-hover:text-(--color-primary)">
                   schema
@@ -135,10 +145,13 @@ const LandingPage = () => {
               <p class="text-sm text-(--text-muted) leading-relaxed">
                 Relationships are mapped automatically into a visual network.
               </p>
-            </div>
+            </SpotlightCard>
 
             {/* Card 4 */}
-            <div className="group p-6 card-surface border border-white/5 hover:border-(--color-primary)/30 transition-all">
+            <SpotlightCard
+              className="group p-6 hover:border-(--color-primary)/30 transition-all"
+              spotlightColor="rgba(31, 224, 205, 0.15)"
+            >
               <div className="size-12 rounded-lg bg-white/5 flex items-center justify-center mb-6 group-hover:bg-(--color-primary)/10 transition-colors">
                 <span class="material-symbols-outlined text-(--text-muted) group-hover:text-(--color-primary)">
                   search_insights
@@ -151,7 +164,7 @@ const LandingPage = () => {
                 Query your knowledge base in natural language to find hidden
                 links.
               </p>
-            </div>
+            </SpotlightCard>
           </div>
         </section>
 
