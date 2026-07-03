@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import DotField from "../components/DotField/DotField";
 import SplitText from "../components/SplitText/SplitText";
+import StarBorder from "../components/StarBorder/StarBorder";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -71,13 +72,17 @@ const LandingPage = () => {
           </p>
 
           {/* Hero CTA Button */}
-          <div className="flex items-center justify-center">
-            <button
-              class="cta-gradient w-full sm:w-auto px-8 py-4 rounded-3xl text-white font-bold text-lg shadow-2xl shadow-(--color-primary)/10 hover:scale-[1.02] transition-transform cursor-pointer mb-19"
+          <div className="flex items-center justify-center mb-19">
+            <StarBorder
+              as="button"
+              color="#1fe0cd"
+              speed="4s"
+              thickness={2}
+              className="w-full sm:w-auto shadow-2xl shadow-(--color-primary)/10 hover:scale-[1.02] transition-transform cursor-pointer text-lg"
               onClick={() => navigate("/signup")}
             >
               Upload a Document
-            </button>
+            </StarBorder>
           </div>
         </section>
 
@@ -170,12 +175,16 @@ const LandingPage = () => {
               hidden connections in document data.
             </p>
             <div class="flex items-center justify-center">
-              <button
-                class="cta-gradient px-10 py-4 rounded-3xl text-white font-bold text-lg shadow-2xl shadow-(--color-primary)/20 cursor-pointer hover:scale-[1.02] transition-transform"
+              <StarBorder
+                as="button"
+                color="#1fe0cd"
+                speed="4s"
+                thickness={2}
+                className="shadow-2xl shadow-(--color-primary)/20 cursor-pointer hover:scale-[1.02] transition-transform text-lg"
                 onClick={() => navigate("/signup")}
               >
                 Get Started Now
-              </button>
+              </StarBorder>
             </div>
           </div>
         </section>
