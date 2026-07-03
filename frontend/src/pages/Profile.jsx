@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { fetchDocuments } from "../api/documentApi.js";
+import SplitText from "../components/SplitText/SplitText.jsx";
 
 const Profile = () => {
   const { user, logout, loading } = useContext(AuthContext);
@@ -36,7 +37,19 @@ const Profile = () => {
       <main className="w-full max-w-105 mx-auto space-y-8 pt-25 px-4 md:px-0">
         {/* Header */}
         <header className="space-y-1 text-center md:text-left">
-          <h1 className="text-[28px] font-semibold leading-tight">Profile</h1>
+          <SplitText
+            tag="h1"
+            text="Profile"
+            splitType="words"
+            className="text-[28px] font-semibold leading-tight"
+            textAlign="left"
+            delay={80}
+            duration={0.8}
+            from={{ opacity: 0, y: 30 }}
+            to={{ opacity: 1, y: 0 }}
+            threshold={0}
+            rootMargin="0px"
+          />
           <p className="text-[15px] text-(--text-muted)">
             Your account and controls
           </p>
@@ -113,13 +126,6 @@ const Profile = () => {
             </button>
           </div>
         </section>
-
-        {/* Footer */}
-        <footer className="py-10 text-center">
-          <p className="text-(--text-muted)/40 text-xs">
-            © 2026 GraphIQ. Built for Intellectual Clarity.
-          </p>
-        </footer>
       </main>
     </>
   );
