@@ -2,9 +2,13 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchDocuments } from "../api/documentApi.js";
 import { useEffect } from "react";
+import { supabase } from "../config/supabase.js";
 
 const Dashboard = () => {
   const [documents, setDocuments] = useState([]);
+  const [selectedDocId, setSelectedDocId] = useState(null);
+  const [entities, setEntities] = useState([]);
+  const [relationships, setRelationships] = useState([]);
 
   const fetchDocs = async () => {
     try {
@@ -18,6 +22,41 @@ const Dashboard = () => {
   useEffect(() => {
     fetchDocs();
   }, []);
+
+  useEffect(() => {
+    if (!selectedDocId) return;
+
+    const loadGraphData = async () => {
+      const [
+        { data: entityData, error: entityError },
+        { data: relationshipData, error: relationshipError },
+      ] = await Promise.all([
+        supabase
+          .from("entities")
+          .select("id, name")
+          .eq("document_id", selectedDocId),
+        supabase
+          .from("relationships")
+          .select("source_entity, target_entity, relation")
+          .eq("document_id", selectedDocId),
+      ]);
+
+      if (entityError) {
+        console.error("Error fetching entities:", entityError);
+        return;
+      }
+
+      if (relationshipError) {
+        console.error("Error fetching relationships:", relationshipError);
+        return;
+      }
+
+      setEntities(entityData);
+      setRelationships(relationshipData);
+    };
+
+    loadGraphData();
+  }, [selectedDocId]);
 
   return (
     <main className="flex min-h-screen overflow-hidden pt-16">
@@ -91,6 +130,10 @@ const Dashboard = () => {
                     <div
                       key={doc.id}
                       className="flex items-center justify-between p-3 rounded-md hover:bg-(--bg-input) group cursor-pointer"
+                      onClick={() => {
+                        if (doc.status !== "completed") return;
+                        setSelectedDocId(doc.id);
+                      }}
                     >
                       <div className="flex items-center gap-3 overflow-hidden">
                         <div className="size-8 rounded bg-(--border-input) flex items-center justify-center text-white shrink-0">
@@ -146,38 +189,6 @@ const Dashboard = () => {
           </button>
         </div>
       </section>
-
-      {/* Right Sidebar */}
-      <aside className="w-80 bg-(--bg-card) border-l border-(--border-input) flex flex-col">
-        {/* Header */}
-        <div className="p-4 border-b border-(--border-input) flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-(--color-primary) text-[20px]">
-              smart_toy
-            </span>
-            <h3 className="text-sm font-bold uppercase tracking-wider">
-              GraphIQ Assistant
-            </h3>
-          </div>
-        </div>
-
-        {/* Chat Window */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-6"></div>
-
-        {/* Question Box */}
-        <div className="p-4 border-t border-(--border-input) bg-(--bg-card)">
-          <div className="relative">
-            <textarea
-              className="w-full bg-(--bg-input) border-none rounded-xl py-3 pl-4 pr-12 text-sm text-white focus:ring-1 focus:ring-(--color-primary) placeholder-(--text-dim) resize-none custom-scrollbar"
-              placeholder="Ask about your document..."
-              rows="1"
-            ></textarea>
-            <button className="absolute right-3 bottom-3 text-(--color-primary) hover:text-white transition-colors cursor-pointer">
-              <span className="material-symbols-outlined">send</span>
-            </button>
-          </div>
-        </div>
-      </aside>
     </main>
   );
 };
