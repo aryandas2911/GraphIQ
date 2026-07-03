@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import DocumentUpload from "../components/Modals/DocumentUpload.jsx";
-import { deleteDocument, fetchDocuments } from "../api/documentApi.js";
+import {
+  deleteDocument,
+  fetchDocuments,
+  processDocument,
+} from "../api/documentApi.js";
 
 const Documents = () => {
   const [uploadModal, setUploadModal] = useState(false);
@@ -26,6 +30,20 @@ const Documents = () => {
       fetchDocs();
     } catch (error) {
       console.error("Error deleting document:", error);
+    }
+  };
+
+  const [processingIds, setProcessingIds] = useState([]);
+
+  const handleProcess = async (id) => {
+    setProcessingIds((prev) => [...prev, id]);
+    try {
+      await processDocument(id);
+    } catch (error) {
+      console.error("Error processing document:", error);
+    } finally {
+      setProcessingIds((prev) => prev.filter((pid) => pid !== id));
+      fetchDocs();
     }
   };
 
@@ -87,14 +105,67 @@ const Documents = () => {
               documents.map((doc) => (
                 <div
                   key={doc.id}
-                  className="group bg-(--bg-card) border border-(--border-input) rounded-xl p-5 transition-all hover:border-slate-700 hover:bg-(--bg-card)/80 cursor-pointer"
+                  className="group relative bg-(--bg-card) border border-(--border-input) rounded-xl p-5 transition-all hover:border-slate-700 hover:bg-(--bg-card)/80 cursor-pointer"
                 >
+                  {(() => {
+                    const isProcessing =
+                      processingIds.includes(doc.id) ||
+                      doc.status === "processing";
+
+                    if (isProcessing) {
+                      return (
+                        <button
+                          disabled
+                          className="absolute top-3 right-3 flex items-center justify-center w-7 h-7 rounded-full text-slate-500 cursor-not-allowed"
+                        >
+                          <span className="material-symbols-outlined text-base animate-spin">
+                            progress_activity
+                          </span>
+                        </button>
+                      );
+                    }
+
+                    if (doc.status === "completed") {
+                      return (
+                        <button
+                          disabled
+                          className="absolute top-3 right-3 flex items-center justify-center w-7 h-7 rounded-full text-green-500 cursor-default"
+                        >
+                          <span className="material-symbols-outlined text-base">
+                            check_circle
+                          </span>
+                        </button>
+                      );
+                    }
+
+                    return (
+                      <button
+                        className="absolute top-3 right-3 flex items-center justify-center w-7 h-7 rounded-full text-slate-500 hover:text-(--color-primary) transition-colors cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleProcess(doc.id);
+                        }}
+                        title={
+                          doc.status === "failed"
+                            ? "Retry processing"
+                            : "Process document"
+                        }
+                      >
+                        <span className="material-symbols-outlined text-base">
+                          {doc.status === "failed"
+                            ? "restart_alt"
+                            : "play_circle"}
+                        </span>
+                      </button>
+                    );
+                  })()}
+
                   <div className="flex justify-between items-start mb-3">
                     <span className="bg-(--color-graph)/10 text-(--color-graph) text-[10px] font-bold px-2.5 py-1 rounded-full border border-(--color-graph)/20">
                       {doc.status?.toUpperCase()}
                     </span>
 
-                    <span className="text-slate-500 text-xs font-medium">
+                    <span className="text-slate-500 text-xs font-medium pr-8">
                       {formatDate(doc.created_at)}
                     </span>
                   </div>
