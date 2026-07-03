@@ -286,10 +286,52 @@ export const processDocument = async (req, res) => {
 
     const entities = await extractEntities(cleanText);
 
+    const entityRows = entities.map((name) => ({
+      document_id: documentId,
+      name,
+    }));
+
+    const { data: insertedEntities, error: entityInsertError } = await supabase
+      .from("entities")
+      .insert(entityRows)
+      .select();
+
+    const entityIdByName = {};
+    insertedEntities.forEach((row) => {
+      entityIdByName[row.name] = row.id;
+    });
+
     const relationships = await extractRelationships(cleanText, entities);
+
+    const relationshipRows = relationships
+      .filter((rel) => entityIdByName[rel.source] && entityIdByName[rel.target])
+      .map((rel) => ({
+        document_id: documentId,
+        source_entity: entityIdByName[rel.source],
+        target_entity: entityIdByName[rel.target],
+        relation: rel.relation,
+      }));
+
+    const { error: relationshipInsertError } = await supabase
+      .from("relationships")
+      .insert(relationshipRows);
+
+    const { data: completeDoc, error: completeError } = await supabase
+      .from("documents")
+      .update({ status: "completed" })
+      .eq("id", documentId);
+
+    if (completeError) {
+      const { data: failedDoc, error: failedError } = await supabase
+        .from("documents")
+        .update({ status: "failed" })
+        .eq("id", documentId);
+      return res.status(500).json({
+        message: "Processing failed",
+      });
+    }
     return res.status(200).json({
-      message: "Relationships",
-      relationships,
+      message: "Document processing complete",
     });
   } catch (error) {
     console.error("Process document error:", error);
