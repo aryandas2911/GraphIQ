@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchDocuments } from "../api/documentApi.js";
 import { useEffect } from "react";
 import { supabase } from "../config/supabase.js";
+import ForceGraph2D from "react-force-graph-2d"
 
 const Dashboard = () => {
   const [documents, setDocuments] = useState([]);
@@ -10,6 +11,8 @@ const Dashboard = () => {
   const [entities, setEntities] = useState([]);
   const [relationships, setRelationships] = useState([]);
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
+  const graphContainerRef = useRef(null)
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
   const fetchDocs = async () => {
     try {
@@ -64,6 +67,20 @@ const Dashboard = () => {
     const links= relationships.map(r => ({ source: r.source_entity, target: r.target_entity, label: r.relation }))
     setGraphData({ nodes, links })
   },[entities,relationships])
+
+  useEffect(() => {
+    const measure = () => {
+      if (!graphContainerRef.current) return;
+      const { width, height } = graphContainerRef.current.getBoundingClientRect();
+      setDimensions({ width, height });
+    };
+
+    measure();
+
+    window.addEventListener("resize", measure);
+
+    return () => window.removeEventListener("resize", measure);
+  }, []);
 
   return (
     <main className="flex min-h-screen overflow-hidden pt-16">
@@ -181,7 +198,17 @@ const Dashboard = () => {
       </aside>
 
       {/* Center Graph */}
-      <section className="flex-1 relative graph-grid bg-(--bg-dark) overflow-hidden cursor-move">
+      <section ref={graphContainerRef} className="flex-1 relative graph-grid bg-(--bg-dark) overflow-hidden cursor-move">
+        {dimensions.width > 0 && dimensions.height > 0 && (
+          <ForceGraph2D
+            graphData={graphData}
+            nodeLabel="label"
+            linkLabel="label"
+            width={dimensions.width}
+            height={dimensions.height}
+          />
+        )}
+
         <div className="absolute bottom-6 left-6 flex flex-col gap-2">
           <button className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors">
             <span className="material-symbols-outlined text-lg">add</span>
