@@ -170,7 +170,10 @@ const LandingPage = () => {
 
         {/* Final CTA Section */}
         <section className="mx-auto px-6 py-32 text-center">
-          <div className="p-10 md:p-16 rounded-4xl bg-linear-to-b from-(--bg-card) to-(--bg-dark) border border-white/5 relative overflow-hidden">
+          <SpotlightCard
+            className="p-10 md:p-16 !rounded-4xl bg-linear-to-b from-(--bg-card) to-(--bg-dark) border border-white/5"
+            spotlightColor="rgba(31, 224, 205, 0.15)"
+          >
             <div className="absolute top-0 right-0 p-4 md:p-8 opacity-10">
               <span
                 className="material-symbols-outlined"
@@ -199,7 +202,7 @@ const LandingPage = () => {
                 Get Started Now
               </StarBorder>
             </div>
-          </div>
+          </SpotlightCard>
         </section>
       </main>
     </>
