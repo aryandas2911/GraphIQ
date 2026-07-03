@@ -1,4 +1,4 @@
-import { groq } from "../config/groq.js";
+import { createChatCompletion } from "./groqRetry.js";
 
 export const summarizeText = async (cleanText) => {
   const prompt = `Summarize the following text in exactly 1-2 short sentences.
@@ -7,7 +7,7 @@ Output ONLY the summary itself. No preamble, no "Here's a summary" phrasing, no 
 Text:
 ${cleanText}`;
 
-  const response = await groq.chat.completions.create({
+  const response = await createChatCompletion({
     model: "llama-3.1-8b-instant",
     messages: [{ role: "user", content: prompt }],
   });

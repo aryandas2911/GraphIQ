@@ -1,4 +1,4 @@
-import { groq } from "../config/groq.js";
+import { createChatCompletion } from "./groqRetry.js";
 
 export const extractRelationships = async (cleanText, entities) => {
   const prompt = `Find relationships between these entities using the text as evidence.
@@ -9,10 +9,10 @@ export const extractRelationships = async (cleanText, entities) => {
                 Text:
                 ${cleanText}`;
 
-  const response = await groq.chat.completions.create({
+  const response = await createChatCompletion({
     model: "llama-3.1-8b-instant",
     messages: [{ role: "user", content: prompt }],
-    max_tokens: 4096,
+    max_tokens: 8192,
   });
 
   let raw = response.choices[0].message.content.trim();
@@ -32,8 +32,23 @@ export const extractRelationships = async (cleanText, entities) => {
   try {
     relationships = JSON.parse(raw);
   } catch (err) {
-    console.error("Raw relationship model response:", raw);
-    throw new Error("Failed to parse relationships from model response");
+    const lastCompleteObject = raw.lastIndexOf("},");
+    const repaired =
+      lastCompleteObject !== -1
+        ? raw.slice(0, lastCompleteObject + 1) + "]"
+        : null;
+
+    if (repaired) {
+      try {
+        relationships = JSON.parse(repaired);
+      } catch (repairErr) {
+        console.error("Raw relationship model response:", raw);
+        throw new Error("Failed to parse relationships from model response");
+      }
+    } else {
+      console.error("Raw relationship model response:", raw);
+      throw new Error("Failed to parse relationships from model response");
+    }
   }
 
   if (!Array.isArray(relationships)) {

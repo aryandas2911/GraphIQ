@@ -1,4 +1,4 @@
-import { groq } from "../config/groq.js";
+import { createChatCompletion } from "./groqRetry.js";
 
 export const extractEntities = async (cleanText) => {
   const prompt = `Extract named entities from the text below (any document type — resume, article, contract, etc.).
@@ -12,7 +12,7 @@ export const extractEntities = async (cleanText) => {
             Text:
             `;
 
-  const response = await groq.chat.completions.create({
+  const response = await createChatCompletion({
     model: "llama-3.1-8b-instant",
     messages: [{ role: "user", content: prompt + cleanText }],
   });
