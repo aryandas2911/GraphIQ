@@ -3,6 +3,7 @@ import { signup } from "../api/userApi.js";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext.jsx";
 import DotField from "../components/DotField/DotField";
+import BorderGlow from "../components/BorderGlow/BorderGlow";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -64,7 +65,13 @@ const Signup = () => {
         </div>
 
         {/* Central Sign Up Card */}
-        <div className="w-full max-w-md bg-(--bg-card) border border-(--border-input) rounded-3xl p-8 shadow-2xl">
+        <BorderGlow
+          className="w-full max-w-md p-8"
+          backgroundColor="#15171c"
+          borderRadius={24}
+          glowColor="174 76 50"
+          colors={["#1fe0cd", "#38bdf8", "#2ed3c6"]}
+        >
           <form className="space-y-5">
             {/* Full Name field */}
             <div className="flex flex-col gap-1.5">
@@ -156,7 +163,7 @@ const Signup = () => {
               </Link>
             </p>
           </div>
-        </div>
+        </BorderGlow>
       </main>
     </div>
   );
