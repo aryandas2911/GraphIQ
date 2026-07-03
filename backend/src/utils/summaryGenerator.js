@@ -11,4 +11,6 @@ export const summarizeText = async (cleanText) => {
   });
 
   const summary = response.choices[0].message.content.trim();
+
+  return summary;
 };

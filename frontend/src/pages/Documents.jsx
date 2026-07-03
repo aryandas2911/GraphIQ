@@ -249,7 +249,7 @@ const Documents = () => {
                       }
 
                       return selectedDoc.summary;
-                    })}
+                    })()}
                   </p>
                 </div>
 
