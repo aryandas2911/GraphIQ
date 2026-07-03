@@ -3,7 +3,7 @@ import { groq } from "../config/groq.js";
 export const extractRelationships = async (cleanText, entities) => {
   const prompt = `Find relationships between these entities using the text as evidence.
                 Entities: ${JSON.stringify(entities)}
-                Only use entities from the list above, as source and target. Relation = short verb phrase (e.g. USES, CREATED, WORKS_AT). No self-relations. Only explicit relationships, don't infer.
+                Only use entities from the list above, as source and target. Relation = short verb phrase (e.g. USES, CREATED, WORKS_AT, etc.). No self-relations. Only explicit relationships, don't infer.
                 Output ONLY a JSON array: [{"source":"","relation":"","target":""}]. No explanation, no markdown.
 
                 Text:

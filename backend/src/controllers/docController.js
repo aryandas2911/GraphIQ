@@ -292,6 +292,7 @@ export const processDocument = async (req, res) => {
       relationships,
     });
   } catch (error) {
+    console.error("Process document error:", error);
     return res.status(500).json({
       message: "Server error",
     });
