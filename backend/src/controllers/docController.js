@@ -2,6 +2,7 @@ import { supabase } from "../config/db.js";
 import { v4 as uuidv4 } from "uuid";
 import { extractRawText } from "../utils/textExtractor.js";
 import { extractEntities } from "../utils/entityExtractor.js";
+import { extractRelationships } from "../utils/relationshipExtractor.js";
 
 export const docUpload = async (req, res) => {
   try {
@@ -285,9 +286,10 @@ export const processDocument = async (req, res) => {
 
     const entities = await extractEntities(cleanText);
 
+    const relationships = await extractRelationships(cleanText, entities);
     return res.status(200).json({
-      message: "Entities: ",
-      entities,
+      message: "Relationships",
+      relationships,
     });
   } catch (error) {
     return res.status(500).json({
