@@ -174,6 +174,21 @@ const Documents = () => {
                     {doc.name}
                   </h3>
 
+                  <div className="flex items-center gap-3 mb-3 text-xs text-slate-400">
+                    <span className="flex items-center gap-1">
+                      <span className="material-symbols-outlined text-sm">
+                        account_tree
+                      </span>
+                      {doc.entityCount} entities
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <span className="material-symbols-outlined text-sm">
+                        share
+                      </span>
+                      {doc.relationshipCount} relationships
+                    </span>
+                  </div>
+
                   <div className="flex items-end justify-between">
                     <p className="text-slate-400 text-sm">
                       {doc.name.split(".").pop()?.toUpperCase()} •{" "}

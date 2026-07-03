@@ -86,7 +86,7 @@ export const fetchDocuments = async (req, res) => {
     const { data, error } = await supabase
       .from("documents")
       .select(
-        "id, file_name, file_url, file_type, file_size, status, created_at",
+        "id, file_name, file_url, file_type, file_size, status, created_at, entities(count), relationships(count)",
       )
       .eq("user_id", userId)
       .order("created_at", { ascending: false });
@@ -106,6 +106,8 @@ export const fetchDocuments = async (req, res) => {
         fileSize: doc.file_size,
         status: doc.status,
         created_at: doc.created_at,
+        entityCount: doc.entities[0]?.count ?? 0,
+        relationshipCount: doc.relationships[0]?.count ?? 0,
       })),
     });
   } catch (error) {
@@ -127,7 +129,7 @@ export const fetchDocumentsById = async (req, res) => {
     const { data, error } = await supabase
       .from("documents")
       .select(
-        "id, file_name, file_url, file_type, file_size, status, created_at",
+        "id, file_name, file_url, file_type, file_size, status, created_at, entities(count), relationships(count)",
       )
       .eq("id", documentId)
       .eq("user_id", userId)
@@ -148,8 +150,8 @@ export const fetchDocumentsById = async (req, res) => {
         file_size: data.file_size,
         status: data.status,
         created_at: data.created_at,
-        entities: [],
-        graph: null,
+        entityCount: data.entities[0]?.count ?? 0,
+        relationshipCount: data.relationships[0]?.count ?? 0,
       },
     });
   } catch (error) {
