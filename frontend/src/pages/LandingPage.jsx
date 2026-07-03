@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import DotField from "../components/DotField/DotField";
+import SplitText from "../components/SplitText/SplitText";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -34,11 +35,32 @@ const LandingPage = () => {
           </div>
 
           {/* Hero Section Text */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-(--text-main) tracking-tight leading-[1.1] mb-6">
-            Turn Documents into an <br class="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-white to-(--text-muted)">
-              Interactive Knowledge Graph
-            </span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.1] mb-6">
+            <SplitText
+              tag="span"
+              text="Turn Documents into an"
+              splitType="words"
+              className="text-(--text-main)"
+              delay={80}
+              duration={0.8}
+              from={{ opacity: 0, y: 30 }}
+              to={{ opacity: 1, y: 0 }}
+              threshold={0}
+              rootMargin="0px"
+            />
+            <br className="hidden md:block" />
+            <SplitText
+              tag="span"
+              text="Interactive Knowledge Graph"
+              splitType="words"
+              className="[&_.split-word]:text-transparent [&_.split-word]:bg-clip-text [&_.split-word]:bg-linear-to-r [&_.split-word]:from-white [&_.split-word]:to-(--text-muted)"
+              delay={80}
+              duration={0.8}
+              from={{ opacity: 0, y: 30 }}
+              to={{ opacity: 1, y: 0 }}
+              threshold={0}
+              rootMargin="0px"
+            />
           </h1>
 
           {/* Hero Section Description */}
