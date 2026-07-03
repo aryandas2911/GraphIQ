@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, loading } = useContext(AuthContext);
 
   return (
     <div>
@@ -18,7 +18,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Menu */}
-          {isAuthenticated ? (
+          {loading ? null : isAuthenticated ? (
             <div className="hidden md:flex items-center gap-8">
               <Link to="/profile">
                 <img
