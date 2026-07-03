@@ -99,8 +99,8 @@ const Dashboard = () => {
   useEffect(() => {
     if (!fgRef.current) return;
 
-    fgRef.current.d3Force("charge").strength(-40);
-    fgRef.current.d3Force("link").distance(30);
+    fgRef.current.d3Force("charge").strength(-5);
+    fgRef.current.d3Force("link").distance(5);
     fgRef.current.d3ReheatSimulation();
   }, [graphData]);
 
@@ -225,6 +225,10 @@ const Dashboard = () => {
           <ForceGraph2D
             ref={fgRef}
             graphData={graphData}
+            onEngineStop={() => {
+              if (!fgRef.current) return;
+              fgRef.current.zoomToFit(400, 60);
+            }}
             nodeCanvasObject={(node, ctx, globalScale) => {
               const label = node.label;
               const radius = 26 / globalScale;
@@ -288,13 +292,31 @@ const Dashboard = () => {
         )}
 
         <div className="absolute bottom-6 left-6 flex flex-col gap-2">
-          <button className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors">
+          <button
+            className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors"
+            onClick={() => {
+              if (!fgRef.current) return;
+              fgRef.current.zoom(fgRef.current.zoom() * 1.2, 300);
+            }}
+          >
             <span className="material-symbols-outlined text-lg">add</span>
           </button>
-          <button className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors">
+          <button
+            className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors"
+            onClick={() => {
+              if (!fgRef.current) return;
+              fgRef.current.zoom(fgRef.current.zoom() * 0.8, 300);
+            }}
+          >
             <span className="material-symbols-outlined text-lg">remove</span>
           </button>
-          <button className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors">
+          <button
+            className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors"
+            onClick={() => {
+              if (!fgRef.current) return;
+              fgRef.current.zoomToFit(400, 60);
+            }}
+          >
             <span className="material-symbols-outlined text-lg">
               center_focus_weak
             </span>
