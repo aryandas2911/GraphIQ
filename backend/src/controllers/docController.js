@@ -296,6 +296,17 @@ export const processDocument = async (req, res) => {
       .insert(entityRows)
       .select();
 
+    if (entityInsertError) {
+      await supabase
+        .from("documents")
+        .update({ status: "failed" })
+        .eq("id", documentId);
+
+      return res.status(500).json({
+        message: "Failed to insert entities",
+      });
+    }
+
     const entityIdByName = {};
     insertedEntities.forEach((row) => {
       entityIdByName[row.name] = row.id;
@@ -315,6 +326,17 @@ export const processDocument = async (req, res) => {
     const { error: relationshipInsertError } = await supabase
       .from("relationships")
       .insert(relationshipRows);
+
+    if (relationshipInsertError) {
+      await supabase
+        .from("documents")
+        .update({ status: "failed" })
+        .eq("id", documentId);
+
+      return res.status(500).json({
+        message: "Failed to insert relationships",
+      });
+    }
 
     const { data: completeDoc, error: completeError } = await supabase
       .from("documents")
