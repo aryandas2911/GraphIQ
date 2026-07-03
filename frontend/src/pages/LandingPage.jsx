@@ -1,11 +1,25 @@
 import { useNavigate } from "react-router-dom";
+import DotField from "../components/DotField/DotField";
 
 const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
     <>
-      <main className="pt-32 pb-10">
+      <div className="fixed inset-0 z-0">
+        <DotField
+          dotRadius={2.5}
+          dotSpacing={20}
+          bulgeStrength={60}
+          glowRadius={140}
+          sparkle={false}
+          waveAmplitude={0}
+          gradientFrom="rgba(245, 246, 248, 0.45)"
+          gradientTo="rgba(245, 246, 248, 0.15)"
+          glowColor="rgba(230, 232, 235, 0.45)"
+        />
+      </div>
+      <main className="relative z-10 pt-32 pb-10">
         {/* Hero Section */}
         <section className="mx-auto px-6 text-center mb-24">
           {/* Hero Section Pill */}
