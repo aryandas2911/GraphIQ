@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { fetchDocuments } from "../api/documentApi.js";
 import SplitText from "../components/SplitText/SplitText.jsx";
+import CountUp from "../components/CountUp/CountUp.jsx";
 
 const Profile = () => {
   const { user, logout, loading } = useContext(AuthContext);
@@ -96,7 +97,8 @@ const Profile = () => {
             </div>
             <div className="flex items-center space-x-2">
               <span className="text-sm text-(--text-muted)">
-                {totalEntities} entities
+                <CountUp to={totalEntities} duration={1.2} />
+                &nbsp;entities
               </span>
               <span className="material-symbols-outlined text-(--text-dim) text-sm">
                 chevron_right
@@ -119,10 +121,6 @@ const Profile = () => {
               onClick={logout}
             >
               Log out
-            </button>
-            <div className="w-full h-px bg-(--border-input)/30"></div>
-            <button className="text-(--color-danger) text-[14px] font-medium hover:underline decoration-red-500/30 underline-offset-4 cursor-pointer">
-              Delete account
             </button>
           </div>
         </section>
