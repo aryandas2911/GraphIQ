@@ -28,7 +28,7 @@ const Navbar = () => {
       activeHref={location.pathname}
       baseColor="#15171c"
       pillColor="#1fe0cd"
-      hoveredPillTextColor="#15171c"
+      hoveredPillTextColor="#ffffff"
       pillTextColor="#15171c"
     />
   );
