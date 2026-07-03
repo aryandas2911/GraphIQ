@@ -1,9 +1,29 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { fetchDocuments } from "../api/documentApi.js";
 
 const Profile = () => {
   const { user, logout, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [totalEntities, setTotalEntities] = useState(0);
+
+  useEffect(() => {
+    const loadEntityCount = async () => {
+      try {
+        const data = await fetchDocuments();
+        const total = data.data.reduce(
+          (sum, doc) => sum + (doc.entityCount ?? 0),
+          0,
+        );
+        setTotalEntities(total);
+      } catch (error) {
+        console.error("Error fetching documents:", error);
+      }
+    };
+
+    loadEntityCount();
+  }, []);
 
   if (!user) return <div>Loading...</div>;
   const joinDate = user.created_at;
@@ -56,29 +76,13 @@ const Profile = () => {
           </div>
         </section>
 
-        {/* Preferences */}
-        <section className="space-y-3">
-          <h3 className="text-[20px] font-medium">Preferences</h3>
-          <div className="bg-(--bg-input) rounded-lg p-4 flex items-center justify-between group cursor-pointer hover:bg-(--bg-input)/80 transition-colors">
-            <div className="flex items-center space-x-3">
-              <span className="material-symbols-outlined text-(--text-dim) text-xl">
-                dark_mode
-              </span>
-              <span className="text-sm font-medium">Theme</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-sm text-(--color-primary)">Dark</span>
-              <span className="material-symbols-outlined text-(--text-dim) text-sm">
-                chevron_right
-              </span>
-            </div>
-          </div>
-        </section>
-
         {/* Your data */}
         <section className="space-y-3">
           <h3 className="text-[20px] font-medium">Your Data</h3>
-          <div className="bg-(--bg-input) rounded-lg p-4 flex items-center justify-between group cursor-pointer hover:bg-(--bg-input)/80 transition-colors">
+          <div
+            className="bg-(--bg-input) rounded-lg p-4 flex items-center justify-between group cursor-pointer hover:bg-(--bg-input)/80 transition-colors"
+            onClick={() => navigate("/documents")}
+          >
             <div className="flex items-center space-x-3">
               <span className="material-symbols-outlined text-(--text-dim) text-xl">
                 description
@@ -86,7 +90,9 @@ const Profile = () => {
               <span className="text-sm font-medium">Documents</span>
             </div>
             <div className="flex items-center space-x-2">
-              <span className="text-sm text-(--text-muted)">1,284 nodes</span>
+              <span className="text-sm text-(--text-muted)">
+                {totalEntities} entities
+              </span>
               <span className="material-symbols-outlined text-(--text-dim) text-sm">
                 chevron_right
               </span>
