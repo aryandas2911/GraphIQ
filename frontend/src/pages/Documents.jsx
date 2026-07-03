@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import DocumentUpload from "../components/Modals/DocumentUpload.jsx";
 import SplitText from "../components/SplitText/SplitText.jsx";
 import AnimatedList from "../components/AnimatedList/AnimatedList.jsx";
+import ClickSpark from "../components/ClickSpark/ClickSpark.jsx";
 import {
   deleteDocument,
   fetchDocuments,
@@ -155,24 +156,34 @@ const Documents = () => {
                     }
 
                     return (
-                      <button
-                        className="absolute top-3 right-3 flex items-center justify-center w-7 h-7 rounded-full text-slate-500 hover:text-(--color-primary) transition-colors cursor-pointer"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleProcess(doc.id);
-                        }}
-                        title={
-                          doc.status === "failed"
-                            ? "Retry processing"
-                            : "Process document"
-                        }
-                      >
-                        <span className="material-symbols-outlined text-base">
-                          {doc.status === "failed"
-                            ? "restart_alt"
-                            : "play_circle"}
-                        </span>
-                      </button>
+                      <div className="absolute top-3 right-3 w-7 h-7">
+                        <ClickSpark
+                          sparkColor="#1fe0cd"
+                          sparkSize={6}
+                          sparkRadius={10}
+                          sparkCount={5}
+                          duration={300}
+                        >
+                          <button
+                            className="flex items-center justify-center w-7 h-7 rounded-full text-slate-500 hover:text-(--color-primary) transition-colors cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleProcess(doc.id);
+                            }}
+                            title={
+                              doc.status === "failed"
+                                ? "Retry processing"
+                                : "Process document"
+                            }
+                          >
+                            <span className="material-symbols-outlined text-base">
+                              {doc.status === "failed"
+                                ? "restart_alt"
+                                : "play_circle"}
+                            </span>
+                          </button>
+                        </ClickSpark>
+                      </div>
                     );
                   })()}
 
@@ -211,16 +222,26 @@ const Documents = () => {
                       {(doc.fileSize / 1024 / 1024).toFixed(2)} MB
                     </p>
 
-                    <button
-                      className="text-slate-500 hover:text-red-500 transition-colors cursor-pointer"
-                      onClick={() => {
-                        handleDelete(doc.id);
-                      }}
-                    >
-                      <span className="material-symbols-outlined text-xl">
-                        delete
-                      </span>
-                    </button>
+                    <div className="w-6 h-6">
+                      <ClickSpark
+                        sparkColor="#ef4444"
+                        sparkSize={6}
+                        sparkRadius={10}
+                        sparkCount={5}
+                        duration={300}
+                      >
+                        <button
+                          className="w-6 h-6 flex items-center justify-center text-slate-500 hover:text-red-500 transition-colors cursor-pointer"
+                          onClick={() => {
+                            handleDelete(doc.id);
+                          }}
+                        >
+                          <span className="material-symbols-outlined text-xl">
+                            delete
+                          </span>
+                        </button>
+                      </ClickSpark>
+                    </div>
                   </div>
                   </div>
                 ))}
