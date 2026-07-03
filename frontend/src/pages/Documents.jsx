@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DocumentUpload from "../components/Modals/DocumentUpload.jsx";
 import SplitText from "../components/SplitText/SplitText.jsx";
+import AnimatedList from "../components/AnimatedList/AnimatedList.jsx";
 import {
   deleteDocument,
   fetchDocuments,
@@ -116,12 +117,12 @@ const Documents = () => {
 
             {/* Document box */}
             {documents.length !== 0 ? (
-              documents.map((doc) => (
-                <div
-                  key={doc.id}
-                  className="group relative bg-(--bg-card) border border-(--border-input) rounded-xl p-5 transition-all hover:border-slate-700 hover:bg-(--bg-card)/80 cursor-pointer"
-                  onClick={()=>{setSelectedDocId(doc.id)}}
-                >
+              <AnimatedList
+                items={documents.map((doc) => (
+                  <div
+                    key={doc.id}
+                    className="group relative bg-(--bg-card) border border-(--border-input) rounded-xl p-5 transition-all hover:border-slate-700 hover:bg-(--bg-card)/80"
+                  >
                   {(() => {
                     const isProcessing =
                       processingIds.includes(doc.id) ||
@@ -221,8 +222,16 @@ const Documents = () => {
                       </span>
                     </button>
                   </div>
-                </div>
-              ))
+                  </div>
+                ))}
+                onItemSelect={(_, index) => {
+                  setSelectedDocId(documents[index].id);
+                }}
+                showGradients={false}
+                enableArrowNavigation={true}
+                displayScrollbar={false}
+                itemClassName="!bg-transparent !p-0"
+              />
             ) : (
               <div className="text-center py-20 text-(--text-muted)">
                 <p className="text-lg font-medium">No Documents Uploaded</p>
@@ -275,19 +284,6 @@ const Documents = () => {
           )}
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="border-t border-white/5 bg-(--bg-dark) py-6 mt-10">
-        <div className="mx-auto max-w-7xl px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <span className="text-md font-bold text-white tracking-tight">
-            GraphIQ
-          </span>
-
-          <div className="text-xs text-(--text-muted)/50">
-            © 2026 GraphIQ. Built for Intellectual Clarity.
-          </div>
-        </div>
-      </footer>
 
       {uploadModal && (
         <DocumentUpload
