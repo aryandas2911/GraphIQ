@@ -2,6 +2,20 @@
 
 Turn documents into an interactive knowledge graph. Upload a PDF or DOCX, and GraphIQ extracts entities and relationships from it using an LLM, then lets you explore the result as a force-directed graph.
 
+## Screenshots
+
+| Landing Page | Sign In |
+| --- | --- |
+| ![Landing Page](Screenshots/landing-page.png) | ![Sign In](Screenshots/signin.png) |
+
+| Dashboard | Documents |
+| --- | --- |
+| ![Dashboard](Screenshots/dashboard.png) | ![Documents](Screenshots/documents.png) |
+
+| Profile |
+| --- |
+| ![Profile](Screenshots/profile.png) |
+
 ## How it works
 
 1. **Upload** — a PDF/DOCX is uploaded to Supabase Storage and a row is created in the `documents` table (`status: "uploaded"`).
