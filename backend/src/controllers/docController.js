@@ -280,8 +280,8 @@ export const processDocument = async (req, res) => {
 
     const fileBuffer = Buffer.from(await downloadDoc.arrayBuffer());
 
-    const parsedText = await extractRawText(fileBuffer, fileType);
-    return parsedText;
+    const cleanText = await extractRawText(fileBuffer, fileType);
+
   } catch (error) {
     return res.status(500).json({
       message: "Server error",
