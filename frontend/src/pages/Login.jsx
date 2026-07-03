@@ -97,7 +97,7 @@ const Login = () => {
             <p className="text-(--text-muted) text-sm">
               Don't have an account?
               <Link
-                className="text-(--color-primary) hover:text-(--color-primary)/80 font-medium ml-1 transition-colors"
+                className="text-(--color-primary) hover:text-(--color-primary)/80 font-medium ml-1 transition-colors cursor-pointer"
                 to="/signup"
               >
                 Sign up

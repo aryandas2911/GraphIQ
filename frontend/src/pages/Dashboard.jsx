@@ -120,7 +120,7 @@ const Dashboard = () => {
         <div className="flex-1 overflow-y-auto">
           <nav className="p-2 space-y-1">
             <a
-              className="flex items-center gap-3 px-3 py-2 rounded-md bg-(--color-primary)/10 text-white group"
+              className="flex items-center gap-3 px-3 py-2 rounded-md bg-(--color-primary)/10 text-white group cursor-pointer"
               href="#"
             >
               <span className="material-symbols-outlined text-[20px] text-(--color-primary)">
@@ -129,7 +129,7 @@ const Dashboard = () => {
               <span className="text-sm font-medium">Knowledge Graph</span>
             </a>
             <Link
-              className="flex items-center gap-3 px-3 py-2 rounded-md text-(--text-muted) hover:bg-(--bg-input) hover:text-white transition-colors"
+              className="flex items-center gap-3 px-3 py-2 rounded-md text-(--text-muted) hover:bg-(--bg-input) hover:text-white transition-colors cursor-pointer"
               to="/documents"
             >
               <span className="material-symbols-outlined text-[20px]">
@@ -293,7 +293,7 @@ const Dashboard = () => {
 
         <div className="absolute bottom-6 left-6 flex flex-col gap-2">
           <button
-            className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors"
+            className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors cursor-pointer"
             onClick={() => {
               if (!fgRef.current) return;
               fgRef.current.zoom(fgRef.current.zoom() * 1.2, 300);
@@ -302,7 +302,7 @@ const Dashboard = () => {
             <span className="material-symbols-outlined text-lg">add</span>
           </button>
           <button
-            className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors"
+            className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors cursor-pointer"
             onClick={() => {
               if (!fgRef.current) return;
               fgRef.current.zoom(fgRef.current.zoom() * 0.8, 300);
@@ -311,7 +311,7 @@ const Dashboard = () => {
             <span className="material-symbols-outlined text-lg">remove</span>
           </button>
           <button
-            className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors"
+            className="size-10 bg-(--bg-card) border border-(--border-input) rounded-md flex items-center justify-center hover:bg-(--bg-input) transition-colors cursor-pointer"
             onClick={() => {
               if (!fgRef.current) return;
               fgRef.current.zoomToFit(400, 60);

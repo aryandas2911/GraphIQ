@@ -38,7 +38,7 @@ const Profile = () => {
         <header className="space-y-1 text-center md:text-left">
           <h1 className="text-[28px] font-semibold leading-tight">
             <Link
-              className="border border-(--bg-dark) rounded-sm px-1 mr-2 hover:border-(--color-primary)"
+              className="border border-(--bg-dark) rounded-sm px-1 mr-2 hover:border-(--color-primary) cursor-pointer"
               to="/dashboard"
             >
               <span className="material-symbols-outlined">arrow_back</span>
