@@ -9,6 +9,7 @@ const Dashboard = () => {
   const [selectedDocId, setSelectedDocId] = useState(null);
   const [entities, setEntities] = useState([]);
   const [relationships, setRelationships] = useState([]);
+  const [graphData, setGraphData] = useState({ nodes: [], links: [] });
 
   const fetchDocs = async () => {
     try {
@@ -57,6 +58,12 @@ const Dashboard = () => {
 
     loadGraphData();
   }, [selectedDocId]);
+
+  useEffect(()=>{
+    const nodes =entities.map(e => ({ id: e.id, label: e.name }))
+    const links= relationships.map(r => ({ source: r.source_entity, target: r.target_entity, label: r.relation }))
+    setGraphData({ nodes, links })
+  },[entities,relationships])
 
   return (
     <main className="flex min-h-screen overflow-hidden pt-16">
