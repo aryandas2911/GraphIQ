@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { fetchDocuments } from "../api/documentApi.js";
 
 const Profile = () => {
@@ -36,15 +36,7 @@ const Profile = () => {
       <main className="w-full max-w-105 mx-auto space-y-8 pt-25 px-4 md:px-0">
         {/* Header */}
         <header className="space-y-1 text-center md:text-left">
-          <h1 className="text-[28px] font-semibold leading-tight">
-            <Link
-              className="border border-(--bg-dark) rounded-sm px-1 mr-2 hover:border-(--color-primary) cursor-pointer"
-              to="/dashboard"
-            >
-              <span className="material-symbols-outlined">arrow_back</span>
-            </Link>
-            Profile
-          </h1>
+          <h1 className="text-[28px] font-semibold leading-tight">Profile</h1>
           <p className="text-[15px] text-(--text-muted)">
             Your account and controls
           </p>
