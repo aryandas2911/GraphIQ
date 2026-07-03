@@ -157,19 +157,6 @@ const LandingPage = () => {
             </div>
           </div>
         </section>
-
-        {/* Footer */}
-        <footer className="border-t border-white/5 bg-(--bg-dark) pt-6">
-          <div className="mx-auto max-w-7xl px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <span className="text-md font-bold text-white tracking-tight">
-              GraphIQ
-            </span>
-
-            <div className="text-xs text-(--text-muted)/50">
-              © 2026 GraphIQ. Built for Intellectual Clarity.
-            </div>
-          </div>
-        </footer>
       </main>
     </>
   );

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { login } from "../api/userApi.js";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
+import DotField from "../components/DotField/DotField";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -31,8 +32,21 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col pt-25">
-      <main className="flex-1 flex flex-col items-center justify-center px-4 pb-20">
+    <div className="relative flex min-h-screen flex-col pt-25">
+      <div className="fixed inset-0 z-0">
+        <DotField
+          dotRadius={2.5}
+          dotSpacing={20}
+          bulgeStrength={60}
+          glowRadius={140}
+          sparkle={false}
+          waveAmplitude={0}
+          gradientFrom="rgba(245, 246, 248, 0.45)"
+          gradientTo="rgba(245, 246, 248, 0.15)"
+          glowColor="rgba(230, 232, 235, 0.45)"
+        />
+      </div>
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 pb-20">
         {/* Headline */}
         <div className="w-full text-center mb-8">
           <h1 className="text-white tracking-tight text-[32px] font-bold leading-tight pb-2">
@@ -106,13 +120,6 @@ const Login = () => {
           </div>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="py-10 text-center">
-        <p className="text-(--text-muted)/40 text-xs">
-          © 2026 GraphIQ. Built for Intellectual Clarity.
-        </p>
-      </footer>
     </div>
   );
 };
