@@ -254,7 +254,7 @@ const Documents = () => {
                 </div>
 
                 <button
-                  className="w-full mt-8 py-2 bg-(--border-input) text-sm rounded flex justify-center gap-2"
+                  className="w-full mt-8 py-2 bg-(--border-input) text-sm rounded flex justify-center gap-2 cursor-pointer"
                   onClick={() => navigate("/dashboard")}
                 >
                   Launch Graph Explorer

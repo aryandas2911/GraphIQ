@@ -12,6 +12,7 @@ export const extractRelationships = async (cleanText, entities) => {
   const response = await groq.chat.completions.create({
     model: "llama-3.1-8b-instant",
     messages: [{ role: "user", content: prompt }],
+    max_tokens: 4096,
   });
 
   let raw = response.choices[0].message.content.trim();
@@ -20,10 +21,18 @@ export const extractRelationships = async (cleanText, entities) => {
     .replace(/```$/, "")
     .trim();
 
+  const firstBracket = raw.indexOf("[");
+  const lastBracket = raw.lastIndexOf("]");
+
+  if (firstBracket !== -1 && lastBracket !== -1) {
+    raw = raw.slice(firstBracket, lastBracket + 1);
+  }
+
   let relationships;
   try {
     relationships = JSON.parse(raw);
   } catch (err) {
+    console.error("Raw relationship model response:", raw);
     throw new Error("Failed to parse relationships from model response");
   }
 
